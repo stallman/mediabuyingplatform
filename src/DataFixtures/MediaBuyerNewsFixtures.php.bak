@@ -1,0 +1,102 @@
+<?php
+
+namespace App\DataFixtures;
+
+use App\Entity\MediabuyerNews;
+use App\Entity\MediabuyerNewsRotation;
+use App\Entity\News;
+use App\Entity\Sources;
+use App\Entity\Teaser;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Faker;
+use App\Traits\Dashboard\UsersTrait;
+
+
+class MediaBuyerNewsFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
+{
+    use UsersTrait;
+
+    const DROP_COUNT = 3;
+    const PROBABILITY = 30;
+
+    /** @var EntityManagerInterface */
+    public $entityManager;
+
+    public $faker;
+
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->faker = Faker\Factory::create();
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        foreach ($this->getMediabuyerUsers() as $user) {
+            $this->createMediaBuyerNews($user);
+        };
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            UserFixtures::class,
+            TeasersFixtures::class,
+        );
+    }
+
+    private function createMediaBuyerNews($user) {
+        $teasers = $this->entityManager->getRepository(Teaser::class)->getMediaBuyerTeasersList($user);
+        $sources = $this->entityManager->getRepository(Sources::class)->getMediaBuyerSourcesList($user);
+        $news = $this->entityManager->getRepository(News::class)->getMediaBuyerNewsList($user);
+        $isRotate = false;
+
+        foreach($news as $newsItem){
+            if($newsItem->getUser() != $user && $newsItem->getType() == 'common'){
+                $isRotate = $this->faker->boolean($chanceOfGettingTrue = 70);
+            }
+
+            $mediaBuyerNews = new MediabuyerNews();
+            $mediaBuyerNews->setMediabuyer($user)
+                ->setNews($newsItem)
+                ->setDropSources($this->getDropItems($sources))
+                ->setDropTeasers($this->getDropItems($teasers));
+
+            $mediaBuyerNewsRotation = new MediabuyerNewsRotation();
+            $mediaBuyerNewsRotation->setMediabuyer($user)
+                ->setNews($newsItem)
+                ->setIsRotation($isRotate);
+
+
+            $this->entityManager->persist($mediaBuyerNews);
+            $this->entityManager->persist($mediaBuyerNewsRotation);
+            $this->entityManager->flush();
+        }
+    }
+
+    private function getDropItems($dropItemsList)
+    {
+        $dropItems = "";
+        if (mt_rand(0, 100) <= self::PROBABILITY){
+            shuffle($dropItemsList);
+            $i = 1;
+            foreach($dropItemsList as $item) {
+                if($i >= self::DROP_COUNT) break;
+                $dropItems .= "{$item->getId()},";
+                $i++;
+            }
+        }
+
+        return $dropItems;
+    }
+
+    public static function getGroups(): array
+    {
+        return ['dev', 'prod', 'MediaBuyerNewsFixtures'];
+    }
+}

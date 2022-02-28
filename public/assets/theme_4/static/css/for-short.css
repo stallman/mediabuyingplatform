@@ -1,0 +1,5 @@
+@media (max-width: 575px) {
+    .additional-second-col {
+        display: none;
+    }
+}

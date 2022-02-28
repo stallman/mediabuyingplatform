@@ -1,0 +1,5 @@
+parameters:
+    default_currency: 1
+    default_mediabuyer: buyer0@demo.com
+    session_expire_time: 86400
+    cookie_expire_time: 1209600

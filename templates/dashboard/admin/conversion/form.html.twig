@@ -1,0 +1,6 @@
+{% extends 'dashboard/templates/form.html.twig' %}
+{% block title %}Форма работы с конверсией{% endblock %}
+{% block custom_script %}
+        <script src="{{ asset('assets/dashboard/js/common/dynamic-generation-conversion-form.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <script src="{{ asset('assets/dashboard/js/common/buyer-and-partners-search.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

@@ -1,0 +1,7 @@
+<td>
+    {% if is_granted('ROLE_ADMIN') == true %}
+        <input type="checkbox" class="bulk-action-item" data-item-id="{{ item_id }}"/>
+    {% elseif item.user.id == app.user.id and item.type.code == 'own' %}
+        <input type="checkbox" class="bulk-action-item" data-item-id="{{ item_id }}"/>
+    {% endif %}
+</td>

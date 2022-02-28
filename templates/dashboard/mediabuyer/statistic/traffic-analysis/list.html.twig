@@ -1,0 +1,272 @@
+{% block title %}Анализ трафика{% endblock %}
+
+{% block bulk_actions_checkobx %}{% endblock %}
+
+{% set add_black_path = path('mediabuyer_dashboard.bulk_black_list_add') %}
+{% set add_white_path = path('mediabuyer_dashboard.bulk_white_list_add') %}
+{% set remove_from_black_path = path('mediabuyer_dashboard.bulk_black_list_remove') %}
+{% set remove_from_white_path = path('mediabuyer_dashboard.bulk_white_list_remove') %}
+
+{% extends 'dashboard/base.html.twig' %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{{ asset('assets/node_modules/datatables/media/css/jquery.dataTables.min.css') }}?v={{ get_env('CSS_VERSION') }}">
+    <link rel="stylesheet" href="{{ asset('assets/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}?v={{ get_env('CSS_VERSION') }}">
+    <link rel="stylesheet" href="{{ asset('assets/node_modules/jquery-ui-dist/jquery-ui.css') }}?v={{ get_env('CSS_VERSION') }}">
+{% endblock %}
+
+{% block body_class %}traffic-analysis{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-12">
+                <!-- /.card -->
+                <div class="card">
+                    {% block card %}
+                        <div class="card-header row">
+                            {% block card_header %}
+                                {% block new_button %}
+                                    {% if new_button_action_link is defined %}
+                                        <a href="{{ new_button_action_link }}" role="button" class="d-flex justify-content-center align-items-center btn btn-info"><i class="fas fa-plus mr-2"></i>&nbsp;{{ new_button_label }}</a>
+                                    {% endif %}
+                                    {% if app.request.pathinfo | slice(0, 18) == '/mediabuyer/costs/' %}
+                                        <button class="d-flex justify-content-center align-items-center btn btn-info costs-mass-edit ml-3"><i class="fas fa-edit mr-2"></i> Изменить расходы</button>
+                                    {% endif %}
+                                {% endblock %}
+                            {% endblock %}
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            {% block card_body %}
+                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="data-table"
+                                                   class="table table-bordered table-striped dataTable dtr-inline bg-white" style=""
+                                                   role="grid" aria-describedby="example1_info">
+                                                <thead>
+                                                <tr role="row">
+
+                                                    {{ render_bulk_checkbox(app.request.get('_route')) | raw }}
+
+                                                    {% block table_header %}
+                                                        {% if columns is iterable %}
+                                                            {% set i = 0 %}
+                                                            {% for column in columns %}
+                                                                <th class="sorting {% if (column["label"] is defined and (column['label'] == 'Заголовок' or column['label'] ==
+                                                                    'Текст')) %}text-class{% endif %}{% if (column['label'] is defined and column['label'] == 'Статистика') %}th-hidden{% endif %}"
+                                                                    tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                                                    aria-label="Rendering engine: activate to sort column ascending"
+                                                                        {% if (column["title"] is defined) %} title="{{ column["title"] }}" {% endif %}
+                                                                        {% if (column["sortable"] is defined and column["sortable"])%} data-sortable-column="active" {% endif %}
+                                                                        {% if (column["defaultTableOrder"] is defined) %} data-sortable-order="{{ column["defaultTableOrder"] }}" {% endif %}
+                                                                        {% if (column["columnName"] is defined) %} data-column-name="{{ column["columnName"] }}" {% endif %}
+                                                                        {% if (column["paging"] is defined) %} data-paging="{{ column["paging"] }}" {% endif %}
+                                                                        {% if (column["pagingServerSide"] is defined) %} data-paging-server-side="{{ column["pagingServerSide"] }}" {% endif %}
+                                                                        {% if (column["ajaxUrl"] is defined) %} data-ajax-url="{{ column["ajaxUrl"] }}" {% endif %}
+                                                                        {% if (column["binfo"] is defined) %} data-binfo="{{ column["binfo"] }}" {% endif %}
+                                                                        {% if (column["searching"] is defined) %} data-searching="{{ column["searching"] }}" {% else %} data-searching="0" {% endif %}
+                                                                        data-hidden="{{ (column["disabled"] is defined and column["disabled"]) or (column["hidden"] is defined and column["hidden"]) ? 'true' : 'false' }}"
+                                                                >
+                                                                    {% if (column["label"] is defined) %}
+                                                                        {% if (column['label'] == 'Изображение') %}
+                                                                            <i class="fas fa-image"></i>
+                                                                        {% elseif (column["label"] == 'ID пользователя') %}
+                                                                            <i class="fa fa-user"></i>
+                                                                        {% else %}
+                                                                            {{ column["label"] }}
+                                                                        {% endif %}
+                                                                    {% else %}
+                                                                        {{ column }}
+                                                                    {% endif %}
+                                                                </th>
+                                                                {% set i = i+1 %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endblock %}
+
+                                                </tr>
+                                                </thead>
+                                                <tbody id="tbody">
+                                                {% block table_body %}
+                                                    <div class="bulk-actions-block" style="margin: 20px 0;">
+                                                        {% set reportSettings %}
+                                                            {{ form_start(reportSettingForm) }}
+                                                            <p>
+                                                                С <input class="form-control-custom" name="report_settings[from]" type="text" id="from"
+                                                                         value="{{ from ? from : "now"|date("d.m.Y") }}" form="report_settings">
+                                                                По <input class="form-control-custom"
+                                                                          name="report_settings[to]" type="text" id="to" value="{{ to ? to : "now"|date("d.m.Y") }}"
+                                                                          form="report_settings">
+                                                                <select id="reload" class="custom-select" style="width: 300px; margin-bottom: 4px"
+                                                                        name="report_settings[period]"
+                                                                        form="report_settings">
+                                                                    <option value="" disabled selected>Быстрый выбор</option>
+                                                                    {% for v, name in periods %}
+                                                                        <option data-period="{{ v }}" value={{ v }}>{{ name }}
+                                                                        </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </p>
+                                                            <h3>Настройки отчета</h3>
+                                                            <input type="hidden" name="_do_table_reload" value="true" />
+                                                            {{ form_row(reportSettingForm.sources) }}
+                                                            {{ form_row(reportSettingForm.campaigns) }}
+                                                            <label class="" for="report_settings_level1">Группировка</label>
+                                                            <div class="row" style="margin-left: 0;">
+                                                                <div class="group-select">
+                                                                    {{ form_widget(reportSettingForm.level1) }}
+                                                                </div>
+                                                                <div class="group-select">
+                                                                    {{ form_widget(reportSettingForm.level2) }}
+                                                                </div>
+                                                                <div class="group-select">
+                                                                    {{ form_widget(reportSettingForm.level3) }}
+                                                                </div>
+                                                            </div>
+                                                            {{ form_end(reportSettingForm) }}
+                                                        {% endset %}
+                                                        {{ reportSettings|replace({'[icon]': '<i class="fas fa-sync-alt"></i>'})|raw }}
+
+                                                        <div class="settings-of-fields-title-block"><i class="settings-of-fields-angle fas fa-angle-up"></i>
+                                                            <h3>Настройки полей</h3>
+                                                        </div>
+                                                        <div class="slide-essential-fields-of-settings" style="display: none">
+                                                            <div id="settings-fields-form" style="margin-left: 10px;">
+                                                                {% set fieldsSettings %}
+                                                                    {{ form_start(fieldsSettingsForm) }}
+                                                                    <div class="row">
+                                                                        <div>
+                                                                            {{ form_row(fieldsSettingsForm.traffic) }}
+                                                                            {{ form_row(fieldsSettingsForm.leads) }}
+                                                                        </div>
+                                                                        <div class="news-finances-fields">
+                                                                            {{ form_row(fieldsSettingsForm.finances) }}
+                                                                        </div>
+                                                                    </div>
+                                                                    {{ form_end(fieldsSettingsForm) }}
+                                                                {% endset %}
+                                                                {{ fieldsSettings|replace({'[icon]': '<i class="fas fa-check-square"></i>'})|raw }}
+                                                            </div>
+                                                        </div>
+
+                                                        <h3 class="toggle-other-settings-form"><i class="other-settings-form fas fa-angle-up"></i>
+                                                            Доп. настройки
+                                                        </h3>
+                                                        <div class="slide" style="display: none">
+                                                            {% set otherSettings %}
+                                                                {{ form_start(otherSettingsForm) }}
+                                                                <div class="row">
+                                                                    <label style="font-weight: 700; margin-left:10px" class="required" for="other_settings_otherFilterParams1">Доп.
+                                                                        фильтры</label>
+                                                                </div>
+                                                                <div class="row" style="margin-left: 0;">
+                                                                    {{ form_row(otherSettingsForm.otherFilterParams1) }}
+                                                                    <div class="wrapper-settings-form-value-1" style="padding-left: 20px;">
+                                                                        {{ form_row(otherSettingsForm.otherFilterValues1) }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-left: 0;">
+                                                                    {{ form_row(otherSettingsForm.otherFilterParams2) }}
+                                                                    <div class="wrapper-settings-form-value-2" style="padding-left: 20px;">
+                                                                        {{ form_row(otherSettingsForm.otherFilterValues2) }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-left: 0;">
+                                                                    {{ form_row(otherSettingsForm.otherFilterParams3) }}
+                                                                    <div class="wrapper-settings-form-value-3" style="padding-left: 20px;">
+                                                                        {{ form_row(otherSettingsForm.otherFilterValues3) }}
+                                                                    </div>
+                                                                </div>
+                                                                {{ form_end(otherSettingsForm) }}
+                                                            {% endset %}
+                                                            {{ otherSettings|replace({'[icon]': '<i class="fas fa-sync-alt"></i>'})|raw }}
+                                                        </div>
+                                                        <div class="validate-submit-forms">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button type="submit" id="other_settings_save" name="other_settings[save]" class="btn btn-danger btn"><i
+                                                                        class="fas fa-sync-alt"></i> Обновить
+                                                            </button>
+
+                                                            {% if (delete_path is defined) and (set_active_path is defined) and (set_disable_path is defined) %}
+                                                                {% if (change_subgroup_path is defined) %}
+                                                                    {{ render_bulk_action_selector(delete_path, set_active_path, set_disable_path, change_subgroup_path) | raw }}
+                                                                {% else %}
+                                                                    {{ render_bulk_action_selector(delete_path, set_active_path, set_disable_path) | raw }}
+                                                                {% endif %}
+                                                            {% elseif (delete_path is defined) %}
+                                                                {{ render_bulk_action_selector(delete_path) | raw }}
+                                                            {% elseif (add_black_path is defined) and (add_white_path is defined) and (remove_from_black_path is defined) and (remove_from_white_path is defined)%}
+                                                                {{ render_bulk_item_checkbox_black_list(add_black_path, add_white_path, remove_from_black_path, remove_from_white_path) | raw }}
+                                                            {% endif %}
+                                                        </div>
+                                                        <tr>
+                                                            {% for column in columns %}
+                                                                    <td class="hide" style="display:none;"></td>
+                                                            {% endfor %}
+                                                            <td class="hide" style="display:none;"></td>
+                                                        </tr>
+                                                    </div>
+
+                                                    <div data-searching="0"
+                                                         data-paging-server-side="1"
+                                                         data-ajax-url="{{ ajaxUrl }}"
+                                                         data-ajax-method="POST"
+                                                         data-column-names="{{ columnNames }}"
+                                                         data-numeric-columns="{{ numericColumns }}"
+                                                         style="display: none">
+                                                    </div>
+
+                                                    <script src="{{ asset('assets/dashboard/js/common/datepicker-from-to.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+                                                    <script src="{{ asset('assets/dashboard/js/common/report-settings-form.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+                                                    <script src="{{ asset('assets/dashboard/js/common/other-settings-form.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+                                                    <script src="{{ asset('assets/dashboard/js/common/settings-fields-form.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+                                                    <script src="{{ asset('assets/dashboard/js/common/filter-by-date.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+                                                    <script src="{{ asset('assets/dashboard/js/common/traffic-analysis-filtering.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+                                                    <script src="{{ asset('assets/dashboard/js/common/filters-change-table-draw.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+                                                {% endblock %}
+                                                </tbody>
+                                                <tfoot class="bg-white"></tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% block other_data %}
+                                    {% if save_button_action_link is defined %}
+                                        <a href="#" role="button" class="btn btn-info" id="save-button" data-url="{{ save_button_action_link }}"><i class="fas fa-save"></i> {{ save_button_label }}</a>
+                                    {% endif %}
+                                {% endblock %}
+                            {% endblock %}
+                        </div>
+                        <!-- /.card-body -->
+                    {% endblock %}
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('assets/node_modules/datatables/media/js/jquery.dataTables.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/node_modules/datatables.net-fixedheader/js/dataTables.fixedHeader.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/node_modules/datatables.net-colreorder/js/dataTables.colReorder.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/delete-ajax.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script>
+        let TA = {
+            'source_names': {{ sourceNames|json_encode|raw }},
+            'news_categories': {{ newsCategories|json_encode|raw }},
+            'traffic_types': {{ trafficTypes|json_encode|raw }},
+            'days_of_week': {{ daysOfWeek|json_encode|raw }},
+            'black_list': {{ blackList|json_encode|raw }},
+            'white_list': {{ whiteList|json_encode|raw }},
+            'costs': {{ costs|json_encode|raw }},
+        };
+    </script>
+    <script src="{{ asset('assets/dashboard/js/common/data-table-setup-traffic-analysis.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/filter-news.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/news-sources-list-modal.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/costs-mass-edit.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/bulk-actions.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

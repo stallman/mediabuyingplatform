@@ -1,0 +1,23 @@
+<div class="bulk-actions-block" style="margin: 20px 0;">
+    <div class="col-md-12">
+        <label for="filter-teasers-group-subgroup">Выберите группу для фильтрации</label>
+        <select id="filter-teasers-group-subgroup" name="teaser[teasersSubGroup]" class="form-control" multiple>
+            {% set i = 0 %}
+
+            {% for teaser_group in teaser_groups %}
+                <option value="g{{ teaser_group.id }}" >{{ teaser_group.name }}</strong>
+                {% if teaser_group.teasersSubGroup is iterable %}
+                    {% for children in teaser_group.teasersSubGroup %}
+                        {% if children.isDeleted == 0 %}
+                            {% set i=i+1 %}
+                            <option value="{{ children.id }}" class="children">&nbsp;&nbsp;&nbsp;{{ children.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </select>
+        <button id="clear-filter-teasers-group-subgroup" class="btn btn-info" style="margin-top: .75rem;">Очистить фильтр</button>
+    </div>
+</div>
+<script src="{{ asset('assets/dashboard/js/common/filter-teaser-group-subgroup.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+

@@ -1,0 +1,31 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Источники{% endblock %}
+{% set delete_path = path('mediabuyer_dashboard.sources_bulk_delete') %}
+{% block table_body %}
+    {% for source in sources %}
+        {% set teasersCount = teasers_count(source, app.user) %}
+        <tr role="row" class="odd">
+            {{ render_bulk_item_checkbox_without_rules(app.request.get('_route'), source, true) | raw }}
+            <td>{{ source.id }}</td>
+            <td>{{ source.title }}</td>
+            <td>{{ teasersCount['active_sources'] }}</td>
+            <td>{{ teasersCount['ban_sources'] }}</td>
+            <td style="width: 20%; text-align: center">
+                {% block action_buttons %}
+                    <div class="btn-group">
+                            <a href="{{ path('mediabuyer_dashboard.sources_edit', {
+                                'id': source.id
+                            }) }}" role="button" class="btn btn-info">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <a href="#" role="button"
+                               data-delete-url="{{ path('mediabuyer_dashboard.sources_delete', {'id': source.id}) }}"
+                               class="btn btn-danger btn-delete">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                    </div>
+                {% endblock %}
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

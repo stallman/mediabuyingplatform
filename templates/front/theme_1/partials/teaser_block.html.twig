@@ -1,0 +1,10 @@
+{% if teaser %}
+    <div class="item-third__unit" style="margin-top: 20px">
+        <a href="{{ teasers_click_counter_link(teaser, article, {'pageType': 'full'})}}" class="item-third__link" target="_blank">
+                                    <span class="item-third__img">
+                                        <img src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}" alt="">
+                                    </span>
+            <span class="item-third__title">{{ get_city(teaser.text, city) | raw }}</span>
+        </a>
+    </div>
+{% endif %}

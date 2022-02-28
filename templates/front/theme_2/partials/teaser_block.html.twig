@@ -1,0 +1,13 @@
+{% if teaser %}
+    <div class="fints_horizontal">
+        <a href="{{ teasers_click_counter_link(teaser, article, {'pageType': 'full'})}}" class="fint fint_horizontal decorated-top fint_expanded fint_coloured"
+           target="_blank">
+            <div class="fint__image fint__image_horizontal">
+                <img class="type_2" src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}" alt="">
+            </div>
+            <div class="fint__content fint__content_horizontal">
+                <div class="fint__title fint__title_horizontal">{{ get_city(teaser.text, city) | raw }}</div>
+            </div>
+        </a>
+    </div>
+{% endif %}

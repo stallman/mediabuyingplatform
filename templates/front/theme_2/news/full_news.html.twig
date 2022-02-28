@@ -1,0 +1,380 @@
+{% extends 'front/theme_2/base.html.twig' %}
+
+{% block title %}
+    {{ article.title }}
+{% endblock %}
+
+{% block body %}
+    {% set twig_content_variable= 'Testing to replace content' %}
+    <section class="above-content-section">
+        <div class="center-wrapper">
+            <div class="fints fints_billet">
+                {% for item in teasers | filter((v, k) => v.id != article.id) | slice(0, 2) %}
+                    <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                       class="fint fint_billet fint_bordered fint_coloured" target="_blank">
+                        <div class="fint__image fint__image_billet">
+                            <img class="type_2"
+                                 src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                 alt="">
+                        </div>
+                        <div class="fint__content fint__content_billet">
+                            <div class="fint__title fint__title_billet">{{ get_city(item.text, city) | raw }}</div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="article-section">
+        <div class="center-wrapper">
+            <div class="article-section__inner" id="article-block">
+                <article class="article" id="newsBlock">
+                    <input type="hidden" id="newsCat" value="9">
+                    <div class="article__heading">
+                        <div class="article__image">
+                            <img src="{{ news_cropped_image_link }}" alt="">
+                            <div class="article__headline">
+                                <div class="article__title">{{ article.title }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article__content" id="article__content">
+                        <p style="display: none" id="articleAll">{{ article_full_description }}</p>
+                        <div id="articleContainer">{{ article_full_description | raw }}</div>
+
+                        <p>&nbsp;</p>
+                        <div class="fints_horizontal" id="firstTeaser">
+                            {% for item in teasers | filter((v, k) => v.id != article.id) | slice(2, 1) %}
+                                <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                                   class="fint fint_horizontal decorated-bottom decorated-top fint_expanded fint_coloured"
+                                   target="_blank">
+                                    <div class="fint__image fint__image_horizontal">
+                                        <img class="type_2"
+                                             src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                             alt="">
+                                    </div>
+                                    <div class="fint__content fint__content_horizontal">
+                                        <div class="fint__title fint__title_horizontal">{{ get_city(item.text, city) | raw }}</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="fints_horizontal focused-effect" id="focused-effect">
+                            {% for item in teasers | filter((v, k) => v.id != article.id) | slice(3, 2) %}
+                                <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                                   class="fint fint_horizontal decorated-bottom decorated-top fint_expanded fint_coloured"
+                                   target="_blank">
+                                    <div class="fint__image fint__image_horizontal">
+                                        <img class="type_2"
+                                             src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                             alt="">
+                                    </div>
+                                    <div class="fint__content fint__content_horizontal">
+                                        <div class="fint__title fint__title_horizontal">{{ get_city(item.text, city) | raw }}</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="article__navigation">
+                            <div class="article-source">
+                                <span style="display: none" class="source_link">{{ article.sourceLink }}</span>
+                                <a href="{{ article.sourceLink }}"
+                                   class="article-source__link">источник</a>
+                            </div>
+                        </div>
+
+                        <div class="read-also">
+                            <div class="read-also__title">
+                                Рекомендуем
+                            </div>
+
+                            <div class="fints_horizontal" id="load_main">
+                                {% for item in teasers | filter((v, k) => v.id != article.id) | slice(5, 3) %}
+                                    <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                                       class="fint fint_horizontal decorated-top fint_expanded fint_coloured"
+                                       target="_blank">
+                                        <div class="fint__image fint__image_horizontal">
+                                            <img class="type_2"
+                                                 src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                                 alt="">
+                                        </div>
+                                        <div class="fint__content fint__content_horizontal">
+                                            <div class="fint__title fint__title_horizontal">{{ get_city(item.text, city) | raw }}</div>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <aside class="sidebar">
+                    <div class="sidebar__inner" id="rightBlock">
+                        <div class="fints-line fints-line_aside" id="firstSidebarLine">
+                            {% for item in teasers | filter((v, k) => v.id != article.id) | slice(8, 2) %}
+                                <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                                   class="fint fint_vertical" target="_blank">
+                                    <div class="fint__image fint__image_vertical">
+                                        <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                             alt="">
+                                    </div>
+                                    <div class="fint__content fint__content_vertical">
+                                        <div class="fint__title fint__title_vertical">{{ get_city(item.text, city) | raw }}</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="fints_horizontal hide-on-1200" id="secondSidebarLine">
+                            {% for item in teasers | filter((v, k) => v.id != article.id) | slice(10, 2) %}
+                                <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                                   class="fint fint_horizontal decorated-bottom" target="_blank">
+                                    <div class="fint__image fint__image_horizontal">
+                                        <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                             alt="">
+                                    </div>
+                                    <div class="fint__content fint__content_horizontal">
+                                        <div class="fint__title fint__title_horizontal">{{ get_city(item.text, city) | raw }}</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="fints-line fints-line_aside" id="thirdSidebarLine">
+                            {% for item in teasers | filter((v, k) => v.id != article.id) | slice(12, 2) %}
+                                <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                                   class="fint fint_vertical" target="_blank">
+                                    <div class="fint__image fint__image_vertical">
+                                        <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                             alt="">
+                                    </div>
+                                    <div class="fint__content fint__content_vertical">
+                                        <div class="fint__title fint__title_vertical">{{ get_city(item.text, city) | raw }}</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="fints_horizontal hide-on-1200" id="fourthSidebarLine">
+                            {% for item in teasers | filter((v, k) => v.id != article.id) | slice(14, 2) %}
+                                <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                                   class="fint fint_horizontal decorated-bottom" target="_blank">
+                                    <div class="fint__image fint__image_horizontal">
+                                        <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                             alt="">
+                                    </div>
+                                    <div class="fint__content fint__content_horizontal">
+                                        <div class="fint__title fint__title_horizontal">{{ get_city(item.text, city) | raw }}</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="fints-line fints-line_aside" id="fifthSidebarLine">
+                            {% for item in teasers | filter((v, k) => v.id != article.id) | slice(16, 2) %}
+                                <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                                   class="fint fint_vertical" target="_blank">
+                                    <div class="fint__image fint__image_vertical">
+                                        <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                             alt="">
+                                    </div>
+                                    <div class="fint__content fint__content_vertical">
+                                        <div class="fint__title fint__title_vertical">{{ get_city(item.text, city) | raw }}</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+    {% set someCountVal = 18 %}
+
+    <section id="long-tail1" class="news_tail">
+        <section class="tail-fragment tail-fragment_white decorated-bottom">
+            <div class="center-wrapper">
+                <div class="fints-line fints-line_of-3" id="firstRowEssential">
+                    {% set someCountValue = 1 %}
+                    {% for item in teasers | filter((v, k) => v.id != article.id) | slice(someCountVal, 3) %}
+                        <a class="fint fint_vertical fint_bordered {% if someCountValue == 1 %}hide-on-560{% endif %}"
+                           target="_blank" href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}">
+                            <div class="fint__image fint__image_vertical">
+                                <img class="type_3"
+                                     src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                     alt="">
+                            </div>
+                            <div class="fint__content fint__content_vertical">
+                                <div class="fint__title fint__title_vertical">{{ get_city(item.text, city) | raw }}</div>
+                            </div>
+                        </a>
+                        {% set someCountValue = 0 %}
+                    {% endfor %}
+                    {% set someCountVal = someCountVal + 3 %}
+                </div>
+            </div>
+        </section>
+        <section class="tail-fragment tail-fragment_white">
+            <div class="center-wrapper">
+                <div class="fints-line fints-line_of-4" id="secondRowEssential">
+                    {% set someCountValue = 1 %}
+                    {% for item in teasers | filter((v, k) => v.id != article.id) | slice(someCountVal, 4) %}
+                        <a class="fint fint_vertical fint_bordered {% if someCountValue == 1 %}hide-on-1000{% elseif someCountValue == 2 %}hide-on-560{% endif %}"
+                           target="_blank" href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}">
+                            <div class="fint__image fint__image_vertical">
+                                <img class="type_3"
+                                     src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                     alt="">
+                            </div>
+                            <div class="fint__content fint__content_vertical">
+                                <div class="fint__title fint__title_vertical">{{ get_city(item.text, city) | raw }}</div>
+                            </div>
+                        </a>
+                        {% set someCountValue = someCountValue + 1 %}
+                    {% endfor %}
+                    {% set someCountVal = someCountVal + 4 %}
+                </div>
+            </div>
+        </section>
+    </section>
+    <div class="item-fourth" id="place_for_teasers">
+        <input id="article_id" type="hidden" value="{{ article.id }}"/>
+    </div>
+    {% set someLengthOfArray = (teasers | length) - someCountVal %}
+    {% set blocks = someLengthOfArray // someCountVal %}
+
+    {% if someLengthOfArray % someCountVal != 0 and someLengthOfArray > 13 %}
+        {% set blocks = blocks + 1 %}
+    {% elseif someLengthOfArray < 13 %}
+        {% set blocks = 1 %}
+    {% endif %}
+
+    {% if someCountVal < teasers | length - 19 %}
+
+        {% for i in range(1, blocks) %}
+
+            <section class="tail-fragment first-repeat-row">
+                <div class="center-wrapper">
+                    <div class="fints-line fints-line_of-3">
+                        {% set someCountValue = 1 %}
+                        {% for item in teasers | filter((v, k) => v.id != article.id) | slice(someCountVal, 3) %}
+                            <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                               class="fint fint_vertical {% if someCountValue == 1 %}hide-on-560{% endif %}">
+                                <div class="fint__image fint__image_vertical">
+                                    <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                         alt="">
+                                </div>
+                                <div class="fint__content fint__content_vertical">
+                                    <div class="fint__title fint__title_vertical">{{ get_city(item.text, city) | raw }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = 0 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 3 %}
+                    </div>
+                    <div class="fints fints_billet">
+                        {% set someCountValue = 1 %}
+                        {% for item in teasers | filter((v, k) => v.id != article.id) | slice(someCountVal, 2) %}
+                            <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                               class="fint fint_billet {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                                <div class="fint__image fint__image_billet">
+                                    <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                         alt="">
+                                </div>
+                                <div class="fint__content fint__content_billet">
+                                    <div class="fint__title fint__title_billet">{{ get_city(item.text, city) | raw }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = 0 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 2 %}
+                    </div>
+                    <div class="fints fints_billet">
+                        {% set someCountValue = 1 %}
+                        {% for item in teasers | filter((v, k) => v.id != article.id) | slice(someCountVal, 2) %}
+                            <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                               class="fint fint_billet {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                                <div class="fint__image fint__image_billet">
+                                    <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                         alt="">
+                                </div>
+                                <div class="fint__content fint__content_billet">
+                                    <div class="fint__title fint__title_billet">{{ get_city(item.text, city) | raw }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = 0 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 2 %}
+
+                    </div>
+                    <div class="fints fints_billet">
+                        {% set someCountValue = 1 %}
+                        {% for item in teasers | filter((v, k) => v.id != article.id) | slice(someCountVal, 2) %}
+                            <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                               class="fint fint_billet {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                                <div class="fint__image fint__image_billet">
+                                    <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                         alt="">
+                                </div>
+                                <div class="fint__content fint__content_billet">
+                                    <div class="fint__title fint__title_billet">{{ get_city(item.text, city) | raw }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = 0 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 2 %}
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="tail-fragment tail-fragment_white decorated-bottom second-repeat-row">
+                <div class="center-wrapper">
+                    <div class="fints-line fints-line_of-4">
+                        {% set someCountValue = 1 %}
+                        {% for item in teasers | filter((v, k) => v.id != article.id) | slice(someCountVal, 4) %}
+                            <a href="{{ teasers_click_counter_link(item, article, {'pageType': 'full'}) }}"
+                               class="fint fint_vertical fint_bordered {% if someCountValue == 1 %}hide-on-1000{% elseif someCountValue == 2 %}hide-on-560{% endif %}">
+                                <div class="fint__image fint__image_vertical">
+                                    <img src="{{ generate_preview_link(item.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                         alt="">
+                                </div>
+                                <div class="fint__content fint__content_vertical">
+                                    <div class="fint__title fint__title_vertical">{{ get_city(item.text, city) | raw }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = someCountValue + 1 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 4 %}
+                    </div>
+                </div>
+            </section>
+        {% endfor %}
+    {% endif %}
+    <div class="fints-line">
+        <p align="center" id="loading" style="display: none; margin-left: auto; margin-right: auto">
+            <img src="{{ asset('assets/theme_1/static/images/load.gif') }}" alt="Loading…">
+        </p>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/node_modules/jquery.cookie/jquery.cookie.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+    <!-- script -->
+    <script>
+        $(document).ready(function () {
+            rightBlockPositioning();
+        });
+    </script>
+    <script src="{{ asset('assets/theme_2/static/js/script.js') }}"></script>
+
+    <!-- Burger menu -->
+    <script src="{{ asset('assets/theme_2/static/js/burger_menu.js') }}"></script>
+
+    <script src="{{ asset('assets/front/js/common/backfix.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/common/click-under.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/common/visit-request.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/common/change_date.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/theme_2/full_news_script.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+{% endblock %}
+

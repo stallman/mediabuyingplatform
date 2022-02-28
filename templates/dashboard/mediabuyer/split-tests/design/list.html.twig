@@ -1,0 +1,45 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Дизайны{% endblock %}
+{% block bulk_actions_checkobx %}{% endblock %}
+{% block table_body %}
+    {{ render_update_chron_data_info(app.user, 'aggregate-dsgn-stat') | raw() }}
+
+    <div> &nbsp; </div>
+
+    {% for design in designs %}
+        <tr role="row" class="odd">
+            <td>{{ render_active_checkbox_by_fields(design) | raw }}</td>
+            <td>{{ get_design_screen(design['name']) | raw }}</td>
+            <td>{{ design['name'] }}</td>
+            <td>{% if design['probiv'] is not null %}
+                    {{ design['probiv']|round(2) ~ '%' }}
+                {% endif %}
+            </td>
+            <td>{% if design['CTR'] is not null %}
+                    {{ design['CTR']|round(2) ~ '%' }}
+                {% endif %}
+            </td>
+            <td>{% if design['conversion'] is not null %}
+                    {{ design['conversion'] }}
+                {% endif %}
+            </td>
+            <td>{% if design['approveConversion'] is not null %}
+                    {{ design['approveConversion'] }}
+                {% endif %}
+            </td>
+            <td>{% if design['EPC'] is not null %}
+                    {{ convert_to_user_currency(design['EPC'], app.user, ruble)|round(2) }}
+                {% endif %}
+            </td>
+            <td>{% if design['CR'] is not null %}
+                    {{ design['CR']|round(2) ~ '%' }}
+                {% endif %}
+            </td>
+            <td>{% if design['ROI'] is not null %}
+                    {{ design['ROI']|round ~ '%' }}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    <script src="{{ asset('assets/dashboard/js/common/buyer-activate-entity.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

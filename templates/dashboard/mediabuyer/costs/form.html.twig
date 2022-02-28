@@ -1,0 +1,5 @@
+{% extends 'dashboard/templates/form.html.twig' %}
+{% block title %}Форма работы с расходом{% endblock %}
+{% block custom_script %}
+    <script src="{{ asset('assets/dashboard/js/common/report-settings-form.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

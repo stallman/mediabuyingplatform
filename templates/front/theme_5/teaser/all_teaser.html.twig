@@ -1,0 +1,82 @@
+{% extends 'front/theme_5/base.html.twig' %}
+
+{% block title %}
+    Все тизеры
+{% endblock %}
+
+{% block body %}
+
+    <div class="list">
+        <div class="row" id="load_main">
+
+            {% set someSizeControlVal = 1 %}
+            {% set someSize = '-size-s' %}
+
+            {% for teaser in teasers %}
+                {% if someSizeControlVal < 5 %}
+                    {% set someSize = '-size-s' %}
+                    {% set someSizeControlVal = someSizeControlVal + 1 %}
+                {% elseif someSizeControlVal == 5 or someSizeControlVal == 9%}
+                    {% set someSize = '-size-l' %}
+                    {% set someSizeControlVal = someSizeControlVal + 1 %}
+                {% elseif someSizeControlVal > 5 and someSizeControlVal < 9 %}
+                    {% set someSize = '-size-s' %}
+                    {% set someSizeControlVal = someSizeControlVal + 1 %}
+                {% elseif someSizeControlVal == 10 %}
+                    {% set someSize = '-size-s' %}
+                    {% set someSizeControlVal = 1 %}
+                {% endif %}
+
+                {% if someSize == '-size-s' %}
+                    <div class="item -size-s -theme-white">
+                        <a href="{{ teasers_click_counter_link(teaser, null, {'pageType': 'top'})}}" style="text-decoration: none; color: black;" target="_blank">
+                            <div class="item-container">
+                                <div class="item-cover">
+                                    <div class="item-cover-thumb" style="background: rgb(137, 128, 120);">
+                                        <img src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block ) }}"
+                                             class="item-cover-img">
+                                        <div class="item-cover-mask"
+                                             style="background: linear-gradient(rgba(137, 128, 120, 0) 0%, rgb(137, 128, 120) 100%);"></div>
+                                    </div>
+                                </div>
+                                <div class="item-content">
+                                    <div class="item-category">
+
+                                    </div>
+                                    <div class="item-title" style="color: rgb(249, 249, 249);">
+                                        <div class="item-link">
+                                            <span class="item-link-text" style="font-size: 1.2rem;">{{ get_city(teaser.text, city) | raw }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="item -size-l -theme-white">
+                        <a href="{{ teasers_click_counter_link(teaser, null, {'pageType': 'top'})}}" style="text-decoration: none; color: black;" target="_blank">
+                            <div class="item-container-large-version">
+                                <div class="card-img-out" style="background: rgb(165, 153, 128);">
+                                    <h5 class="card-title" style="color: #ffffff; z-index: 3; font-size: 1.2rem;">{{ get_city(teaser.text, city) | raw }}</h5>
+                                    <div class="item__gradient" style="background: radial-gradient(100% 500% at 100% center, rgba(165, 153, 128, 0) 55%, rgb(165, 153, 128) 75%); z-index: 100;">
+                                    </div>
+                                </div>
+                                <div class="card_col_1" style="z-index: 1; background: rgb(165, 153, 128);">
+                                    <img class="card-img" src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block ) }}">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <input type="hidden" name="some-size-control-val" id="some-size-control-val" value="{{ someSizeControlVal }}">
+        <p align="center" id="loading" style="display: none;">
+            <img src="{{ asset('assets/theme_1/static/images/load.gif') }}" alt="Loading…">
+        </p>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/front/js/theme_6/teasers_script.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

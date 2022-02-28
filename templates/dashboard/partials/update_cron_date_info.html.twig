@@ -1,0 +1,7 @@
+<div class="update-cron-date-info">
+    {% if(cron_date is null) %}
+        <p>Данные еще не обновлялись. Параметры статистики eCPM, EPC указаны в {{ user_currency.isoCode | upper }}</p>
+    {% else %}
+        <p>Данные обновлены {{ cron_date | date('d.m.Y') }} в {{ cron_date | date('H:i', 'Europe/Moscow') }} MSK. Параметры статистики eCPM, EPC указаны в {{ user_currency.isoCode | upper }}</p>
+    {% endif %}
+</div>

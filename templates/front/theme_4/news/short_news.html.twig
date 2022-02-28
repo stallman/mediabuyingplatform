@@ -1,0 +1,151 @@
+{% extends 'front/theme_4/base.html.twig' %}
+
+{% block title %}
+    {{ article.title }}
+{% endblock %}
+
+{% block body %}
+    <div class="list">
+        <div class="row row-article">
+            <div class="article-container">
+                <a href="{{ path('front.counting_news_short_to_full', {
+                    'news': article.id
+                }) }}" style="text-decoration: none;" class="js-show-more" target="_blank"></a>
+                <div class="item item-main -theme-white has-readMore">
+                    <a href="{{ path('front.counting_news_short_to_full', {
+                        'news': article.id
+                    }) }}" style="text-decoration: none;" class="js-show-more" target="_blank"></a>
+                    <div class="item-container">
+                        <a href="{{ path('front.counting_news_short_to_full', {
+                            'news': article.id
+                        }) }}" style="text-decoration: none;" class="js-show-more" target="_blank">
+                            <div class="item-cover">
+                                <div class="item-cover-thumb"><img
+                                            src="{{ news_cropped_image_link }}"
+                                            class="item-cover-img"
+                                            alt="">
+                                    <img src="{{ news_cropped_image_link }}"
+                                         class="item-cover-blur">
+                                    <div class="item-cover-mask"></div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="item-content item-content_article">
+                            <a href="{{ path('front.counting_news_short_to_full', {
+                                'news': article.id
+                            }) }}" style="text-decoration: none;" class="js-show-more"
+                               target="_blank">
+                                <div class="item-category"></div>
+                            </a>
+                            <div class="item-title -font-lg">
+                                <a href="{{ path('front.counting_news_short_to_full', {
+                                    'news': article.id
+                                }) }}" style="text-decoration: none;" class="js-show-more"
+                                   target="_blank"></a>
+                                <a href="{{ path('front.counting_news_short_to_full', {
+                                    'news': article.id
+                                }) }}" class="item-link js-show-more" target="_blank">
+                                    <span class="item-link-text">{{article.title}}</span>
+                                    <span class="item-readMore">Читать далее</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aside-container">
+                <div id="load_aside">
+                    {% for teaser in teasers | filter((v, k) => v.id != article.id) | slice (0, 1) %}
+                        <div class="item -theme-white">
+                            <a href="{{ teasers_click_counter_link(teaser, article, {'pageType': 'short'})}}" style="text-decoration: none;" target="_blank">
+                                <div class="item-container">
+                                    <div class="item-cover">
+                                        <div class="item-cover-thumb">
+                                            <picture>
+                                                <img src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                                     class="item-cover-img"></picture>
+                                            <picture>
+                                                <img src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                                     class="item-cover-blur"></picture>
+                                            <div class="item-cover-mask"
+                                                 style="background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.91) 88%, rgb(0, 0, 0) 100%);"></div>
+                                        </div>
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="item-category">
+                                        </div>
+                                        <div class="item-title" style="color: rgb(249, 249, 249);">
+                                            <div class="item-link">
+                                                <span class="item-link-text">{{ get_city(teaser.text, city) | raw }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row" id="load_main">
+
+            {% set someSizeControlVal = 1 %}
+            {% set someSize = '-size-xs' %}
+
+            {% for teaser in teasers | filter((v, k) => v.id != article.id) | slice (1)  %}
+                {% if someSizeControlVal < 5 %}
+                    {% set someSize = '-size-xs' %}
+                    {% set someSizeControlVal = someSizeControlVal + 1 %}
+                {% elseif someSizeControlVal == 5 or someSizeControlVal == 10 or someSizeControlVal == 11 or someSizeControlVal == 12 %}
+                    {% set someSize = '-size-m' %}
+                    {% if someSizeControlVal == 12 %}
+                        {% set someSizeControlVal = 1 %}
+                    {% else %}
+                        {% set someSizeControlVal = someSizeControlVal + 1 %}
+                    {% endif %}
+                {% elseif someSizeControlVal > 5 and someSizeControlVal < 10 %}
+                    {% set someSize = '-size-xs' %}
+                    {% set someSizeControlVal = someSizeControlVal + 1 %}
+                {% endif %}
+
+                <div class="item {{ someSize }} -theme-white">
+                    <a href="{{ teasers_click_counter_link(teaser, article, {'pageType': 'short'})}}" style="text-decoration: none;" target="_blank">
+                        <div class="item-container">
+                            <div class="item-cover">
+                                <div class="item-cover-thumb">
+                                    <img src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                         class="item-cover-img">
+                                    <img src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                                         class="item-cover-blur">
+                                    <div class="item-cover-mask"
+                                         style="background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.91) 88%, rgb(0, 0, 0) 100%);"></div>
+                                </div>
+                            </div>
+                            <div class="item-content">
+                                <div class="item-category">
+                                </div>
+                                <div class="item-title" style="color: rgb(249, 249, 249);">
+                                    <div class="item-link">
+                                        <span class="item-link-text">{{ get_city(teaser.text, city) | raw }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+            <div class="third">
+                <input id="article_id" type="hidden" value="{{ article.id }}"/>
+                <div class="item-fourth" id="place_for_teasers">
+                </div>
+            </div>
+        </div>
+        <p align="center" id="loading" style="display: none;">
+            <img src="{{ asset('assets/theme_1/static/images/load.gif') }}" alt="Loading…">
+        </p>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/front/js/theme_5/both_for_full_and_short_news_script.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

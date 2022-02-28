@@ -1,0 +1,24 @@
+<div class="bulk-actions-block" style="margin: 20px 0;">
+    <div class="input-group col-md-3">
+        <select class="custom-select" id="bulk-actions-selector">
+            <option disabled selected>Массовые действия</option>
+            {% if (delete_path) is defined %}
+                <option value="delete" data-url="{{ delete_path }}">Удаление записей
+                </option>
+            {% endif %}
+            {% if (set_active_path) is defined %}
+                <option value="set_active" data-url="{{ set_active_path }}">Смена статуса
+                    (Активировать группу)
+                </option>
+            {% endif %}
+            {% if (set_disable_path) is defined %}
+                <option value="set_disable" data-url="{{ set_disable_path }}">Смена статуса
+                    (Деактивировать группу)
+                </option>
+            {% endif %}
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" id="bulk-actions-form-submit" form="bulk-actions-form">Сохранить</button>
+        </div>
+    </div>
+</div>

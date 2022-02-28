@@ -1,0 +1,32 @@
+{% extends 'dashboard/base.html.twig' %}
+{% block title %}Блек листы{% endblock %}
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- jquery validation -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"></h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        {% set formHtml %}
+                            {{ form_start(blackWhiteListForm) }}
+                            {{ form_end(blackWhiteListForm) }}
+                        {% endset %}
+                        {{ formHtml|replace({'[icon]': '<i class="fas fa-sync-alt"></i>'})|raw }}
+                        <p><textarea id="list" rows="10" cols="45" name="text" readonly></textarea></p>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('assets/dashboard/js/common/multiple-selector-select-all-button.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/black-n-white-lists.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

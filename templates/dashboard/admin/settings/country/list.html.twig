@@ -1,0 +1,32 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Страны{% endblock %}
+
+{% block table_body %}
+    {% for country in countries %}
+        <tr role="row" class="odd">
+            <td>{{ country.name }}</td>
+            <td>{{ country.isoCode }}</td>
+            <td style="width: 20%; text-align: center">
+                {% block action_buttons %}
+                    <div class="btn-group">
+                        <a href="{{ path('admin_dashboard.settings.country_edit', {
+                            'id': country.id
+                        }) }}"
+                           data-toggle="tooltip" data-placement="top" title="Редактировать"
+                           role="button" class="btn btn-info">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <a href="#" role="button"
+                           class="btn btn-danger btn-delete"
+                           data-delete-url="{{ path('admin_dashboard.settings.country_delete', {'id': country.id}) }}"
+                           data-toggle="tooltip" data-placement="top" title="Удалить"
+                        >
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                    </div>
+                {% endblock %}
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+

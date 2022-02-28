@@ -1,0 +1,19 @@
+{% if teaser.text is defined %}
+    <div class="item item-product col-6 col-sm-6 col-md-4 col-lg-3 col-xl-6">
+        <a class="teaser teaser-product" href="{{ teasers_click_counter_link(teaser, article, {'pageType': 'full'})}}" target="_blank" style="background: rgb(141, 96, 73);" data-id="9277">
+            <div class="teaser-image">
+                <div class="background" style="background: linear-gradient(0deg, rgb(141, 96, 73) 0px, transparent 100%);"></div>
+                <img src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}" width="492" height="328">
+                <div class="category" style="color: #fafafa; background: rgb(141, 96, 73);">
+                    Лучшее
+                </div>
+            </div>
+            <div class="teaser-title" style="color: #fafafa;">{{ get_city(teaser.text, city) | raw }}</div>
+            <div class="button" style="display: none;">
+                <div class="read-more">
+                    Подробнее
+                </div>
+            </div>
+        </a>
+    </div>
+{% endif %}

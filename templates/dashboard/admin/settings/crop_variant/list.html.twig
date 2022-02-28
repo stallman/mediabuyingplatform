@@ -1,0 +1,46 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Варианты кропа{% endblock %}
+
+{% block card_body %}
+    <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <div class="row">
+            <div class="col-sm-12">
+                {{ form_start(form) }}
+                <table id="data-table"
+                       class="table table-bordered table-striped dataTable dtr-inline"
+                       role="grid" aria-describedby="example1_info">
+                    <thead>
+                    <tr role="row">
+                        {{ render_bulk_checkbox(app.request.get('_route')) | raw }}
+                        {% block table_header %}
+                            {% include 'dashboard/partials/table/header.html.twig' with {'columns': columns} %}
+                        {% endblock %}
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    {% block table_body %}
+                        {% for item in form.crop_variants %}
+                            <tr role="row" class="odd">
+                                <td>{{ form_widget(item.design_number) }}</td>
+                                <td>{{ form_widget(item.width_teaser_block) }}</td>
+                                <td>{{ form_widget(item.height_teaser_block) }}</td>
+                                <td>{{ form_widget(item.width_news_block) }}</td>
+                                <td>{{ form_widget(item.height_news_block) }}</td>
+                            </tr>
+                        {% endfor %}
+                        {{ form_widget(form.save) }}
+                    {% endblock %}
+                    </tbody>
+                </table>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    {% block other_data %}
+        {% if save_button_action_link is defined %}
+            <a href="#" role="button" class="btn btn-info" id="save-button"
+               data-url="{{ save_button_action_link }}"><i
+                        class="fas fa-save"></i> {{ save_button_label }}</a>
+        {% endif %}
+    {% endblock %}
+{% endblock %}

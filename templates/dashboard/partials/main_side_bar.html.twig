@@ -1,0 +1,46 @@
+<!-- Brand Logo -->
+<a href="{{ path(common.sidebar_logo.route) }}" class="brand-link">
+    <img src="{{ asset(common.sidebar_logo.src) }}"
+         alt="{{ common.sidebar_logo.alt }}"
+         class="brand-image img-circle elevation-3"
+         style="opacity: .8">
+    <span class="brand-text font-weight-light">{{ common.sidebar_logo.label }}</span>
+</a>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul id="sidebar-navigation" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            {% for item in sidebar %}
+                <li class="nav-item {% if item.tree_items is defined %}has-treeview{% endif %}">
+                    <a href="{% if item.route is not null %}{{ path(item.route) }}{% else %}#{% endif %}"
+                       class="nav-link">
+                        <i class="nav-icon {{ item.fa_icon }} nav-icon"></i>
+                        <p>
+                            {{ item.label }}
+
+                            {% if item.tree_items is defined %}
+                                <i class="right fas fa-angle-left"></i>
+                            {% endif %}
+                        </p>
+                    </a>
+                    {% if item.tree_items is defined %}
+                        <ul class="nav nav-treeview">
+                            {% for tree_item in item.tree_items %}
+                                <li class="nav-item">
+                                    <a href="{{ path(tree_item.route) }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ tree_item.label }}</p>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->

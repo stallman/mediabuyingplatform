@@ -1,0 +1,44 @@
+{% block action_buttons %}
+    <div class="btn-group">
+        {% if actions['edit'] is defined %}
+            <a href="{{ actions['edit'] }}" data-toggle="tooltip"
+               data-placement="top" title="Редактировать"
+               role="button" class="btn btn-info">
+                <i class="far fa-edit"></i>
+            </a>
+        {% endif %}
+        {% if actions['delete'] is defined %}
+            <a href="#" role="button"
+               data-delete-url="{{ actions['delete'] }}"
+               class="btn btn-danger btn-delete"
+               data-toggle="tooltip" data-placement="top" title="Удалить"
+            >
+                <i class="far fa-trash-alt"></i>
+            </a>
+        {% endif %}
+        {% if actions['copy'] is defined %}
+            <a href="{{ actions['copy'] }}" role="button"
+               class="btn btn-success"
+               data-toggle="tooltip" data-placement="top" title="Копировать"
+            >
+                <i class="fas fa-copy"></i>
+            </a>
+        {% endif %}
+        {% if actions['news_modal'] is defined %}
+            <a href="#" role="button"
+               class="btn btn-success open-news-sources-list-modal" data-news-id="{{ actions['news_modal'] }}">
+                <i class="far fa-eye"></i>
+            </a>
+        {% endif %}
+        {% if actions['rotation_add'] is defined %}
+            <a href="{{ actions['rotation_add'] }}" role="button" class="btn btn-success" title="Добавить в ротацию">
+                <i class="fas fa-check-square"></i>
+            </a>
+        {% endif %}
+        {% if actions['rotation_drop'] is defined %}
+            <a href="{{ actions['rotation_drop'] }}" role="button" class="btn btn-warning" title="Исключить из ротации">
+                <i class="fas fa-ban"></i>
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}

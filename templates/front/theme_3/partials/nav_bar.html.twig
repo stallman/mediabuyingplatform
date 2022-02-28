@@ -1,0 +1,13 @@
+<div id="navigation-collapse" class="collapse navbar-collapse fourth-design-navbar">
+    <ul id="w0" class="navbar-nav nav">
+        {% for category in categories %}
+            <li class="nav-item">
+                <a href="{{ path('front.show_by_category', {
+                    'slug': category.slug
+                }) }}" target="_blank" class="nav-link">
+                    {{ category.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

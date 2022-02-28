@@ -1,0 +1,36 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Тизеры{% endblock %}
+
+{% block bulk_actions_checkobx %}{% endblock %}
+
+{% set delete_path = path('mediabuyer_dashboard.teaser_bulk_delete') %}
+{% set set_active_path = path('mediabuyer_dashboard.teaser_bulk_set_active') %}
+{% set set_disable_path = path('mediabuyer_dashboard.teaser_bulk_set_disable') %}
+{% set change_subgroup_path = path('mediabuyer_dashboard.teaser_bulk_change_subgroup') %}
+{% set counter_needed_on_page = 1 %}
+
+{% block table_body %}
+
+    {{ render_teasers_group_action_selector(teaser_groups) | raw }}
+    {{ render_update_chron_data_info(app.user, 'teaser-statistics') | raw() }}
+
+    <tr role="row" class="odd">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <script src="{{ asset('assets/dashboard/js/common/render-teasers-group-select.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}
+

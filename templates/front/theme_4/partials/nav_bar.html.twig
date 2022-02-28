@@ -1,0 +1,9 @@
+<nav class="menu">
+        {% for category in categories %}
+                <a href="{{ path('front.show_by_category', {'slug': category.slug}) }}" class="menu-item" target="_blank">
+                {{ category.title }}
+                </a>
+        {% endfor %}
+</nav>
+
+<span class="icon" onclick="openMenu()">☰</span>

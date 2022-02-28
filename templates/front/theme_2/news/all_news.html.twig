@@ -1,0 +1,217 @@
+{% extends 'front/theme_2/base.html.twig' %}
+
+{% block title %}
+    Все новости
+{% endblock %}
+
+{% block body %}
+    <section id="main">
+        <section class="tail-fragment tail-fragment_white decorated-bottom top-page-section">
+            <div class="center-wrapper">
+
+                <div class="fints-line fints-line_of-3" id="firstRowEssential">
+                    {% set someCountValue = 1 %}
+                    {% for item in news | slice(0, 3) %}
+
+                        <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                           class="fint fint_vertical fint_bordered {% if someCountValue == 1 %}hide-on-560{% endif %}">
+                            <div class="fint__image fint__image_vertical">
+                                <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                            </div>
+                            <div class="fint__content fint__content_vertical">
+                                <div class="fint__title fint__title_vertical">{{ item.title }}</div>
+                            </div>
+                        </a>
+                        {% set someCountValue = 0 %}
+                    {% endfor %}
+                </div>
+                <div class="fints-line fints-line_of-4" id="secondRowEssential">
+                    {% set someCountValue = 1 %}
+                    {% for item in news | slice(3, 4) %}
+                        <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                           class="fint fint_vertical fint_bordered {% if someCountValue == 1 %}hide-on-1000{% elseif someCountValue == 2 %}hide-on-560{% endif %}">
+                            <div class="fint__image fint__image_vertical">
+                                <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                            </div>
+                            <div class="fint__content fint__content_vertical">
+                                <div class="fint__title fint__title_vertical">{{ item.title }}</div>
+                            </div>
+                        </a>
+                        {% set someCountValue = someCountValue + 1 %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="tail-fragment tail-fragment_white" id="thirdEssentialRow">
+            <div class="center-wrapper">
+                <div class="fints fints_billet">
+                    {% set someCountValue = 1 %}
+                    {% for item in news | slice(7, 2) %}
+                        <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                           class="fint fint_billet fint_bordered {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                            <div class="fint__image fint__image_billet">
+                                <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                            </div>
+                            <div class="fint__content fint__content_billet">
+                                <div class="fint__title fint__title_billet">{{ item.title }}</div>
+                            </div>
+                        </a>
+                        {% set someCountValue = 0 %}
+                    {% endfor %}
+                </div>
+                <div class="fints fints_billet">
+                    {% set someCountValue = 1 %}
+                    {% for item in news | slice(9, 2) %}
+                        <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                           class="fint fint_billet fint_bordered {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                            <div class="fint__image fint__image_billet">
+                                <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                            </div>
+                            <div class="fint__content fint__content_billet">
+                                <div class="fint__title fint__title_billet">{{ item.title }}</div>
+                            </div>
+                        </a>
+                        {% set someCountValue = 0 %}
+                    {% endfor %}
+                </div>
+                <div class="fints fints_billet">
+                    {% set someCountValue = 1 %}
+                    {% for item in news | slice(11, 2) %}
+                        <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                           class="fint fint_billet fint_bordered {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                            <div class="fint__image fint__image_billet">
+                                <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                            </div>
+                            <div class="fint__content fint__content_billet">
+                                <div class="fint__title fint__title_billet">{{ item.title }}</div>
+                            </div>
+                        </a>
+                        {% set someCountValue = 0 %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        {% set someCountVal = 13 %}
+        {% set someLengthOfArray = (news | length) - someCountVal %}
+        {% set someCountBlocks = (news | length) %}
+        {% set blocks = someLengthOfArray // someCountVal %}
+
+        {% if someLengthOfArray % someCountVal != 0 and someLengthOfArray > 13 %}
+            {% set blocks = blocks + 1 %}
+        {% elseif someLengthOfArray < 13 %}
+            {% set blocks = 1 %}
+        {% endif %}
+
+        {% for i in range(1, blocks) %}
+
+            <section class="tail-fragment first-repeat-row">
+                <div class="center-wrapper">
+                    {% if i == 1 %}
+                        <div class="section-headline">Читайте также</div>
+                    {% endif %}
+                    <div class="fints-line fints-line_of-3">
+                        {% set someCountValue = 1 %}
+                        {% for item in news | slice(someCountVal, 3) %}
+                            <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               class="fint fint_vertical {% if someCountValue == 1 %}hide-on-560{% endif %}">
+                                <div class="fint__image fint__image_vertical">
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="fint__content fint__content_vertical">
+                                    <div class="fint__title fint__title_vertical">{{ item.title }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = 0 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 3 %}
+                    </div>
+
+                    <div class="fints fints_billet">
+                        {% set someCountValue = 1 %}
+                        {% for item in news | slice(someCountVal, 2) %}
+                            <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               class="fint fint_billet {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                                <div class="fint__image fint__image_billet">
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="fint__content fint__content_billet">
+                                    <div class="fint__title fint__title_billet">{{ item.title }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = 0 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 2 %}
+                    </div>
+                    <div class="fints fints_billet">
+                        {% set someCountValue = 1 %}
+                        {% for item in news | slice(someCountVal, 2) %}
+                            <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               class="fint fint_billet {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                                <div class="fint__image fint__image_billet">
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="fint__content fint__content_billet">
+                                    <div class="fint__title fint__title_billet">{{ item.title }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = 0 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 2 %}
+
+                    </div>
+                    <div class="fints fints_billet">
+                        {% set someCountValue = 1 %}
+                        {% for item in news | slice(someCountVal, 2) %}
+                            <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               class="fint fint_billet {% if someCountValue == 1 %}hide-on-1000{% endif %}">
+                                <div class="fint__image fint__image_billet">
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="fint__content fint__content_billet">
+                                    <div class="fint__title fint__title_billet">{{ item.title }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = 0 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 2 %}
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="tail-fragment tail-fragment_white decorated-bottom second-repeat-row">
+                <div class="center-wrapper" id="load_main">
+                    <div class="fints-line fints-line_of-4">
+                        {% set someCountValue = 1 %}
+                        {% for item in news | slice(someCountVal, 4) %}
+                            <a href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               class="fint fint_vertical fint_bordered {% if someCountValue == 1 %}hide-on-1000{% elseif someCountValue == 2 %}hide-on-560{% endif %}">
+                                <div class="fint__image fint__image_vertical">
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="fint__content fint__content_vertical">
+                                    <div class="fint__title fint__title_vertical">{{ item.title }}</div>
+                                </div>
+                            </a>
+                            {% set someCountValue = someCountValue + 1 %}
+                        {% endfor %}
+                        {% set someCountVal = someCountVal + 4 %}
+                    </div>
+                </div>
+            </section>
+        {% endfor %}
+        <div class="fints-line">
+            <p align="center" id="loading" style="display: none; margin-left: auto; margin-right: auto">
+                <img src="{{ asset('assets/theme_1/static/images/load.gif') }}" alt="Loading…">
+            </p>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!-- Moment.js script-->
+    <script src="{{ asset('assets/dashboard/js/common/moment.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/theme_2/top_news_script.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

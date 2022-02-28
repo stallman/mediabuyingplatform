@@ -1,0 +1,104 @@
+common:
+  sidebar_logo:
+    route: 'mediabuyer_dashboard'
+    src: 'assets/dashboard/img/AdminLTELogo.png'
+    alt: 'AdminLTE Logo'
+    label: 'Панель управления'
+
+navbar:
+  logout:
+    label: 'Выход'
+    route: 'mediabuyer_dashboard.logout'
+
+sidebar:
+  news:
+    label: 'Новости'
+    route: null
+    fa_icon: 'fas fa-newspaper'
+    tree_items:
+      news:
+        label: 'Новости'
+        route: 'mediabuyer_dashboard.news_list'
+      news_categories:
+        label: 'Категории'
+        route: 'mediabuyer_dashboard.news_categories_list'
+  teaser:
+    label: 'Тизеры'
+    route: null
+    fa_icon: 'fas fa-newspaper'
+    tree_items:
+      teaser:
+        label: 'Тизеры'
+        route: 'mediabuyer_dashboard.teaser_list'
+      teaser_group:
+        label: 'Группы и подгруппы'
+        route: 'mediabuyer_dashboard.teaser_group_list'
+        fa_icon: 'fas fa-newspaper'
+  settings:
+    label: 'Настройки'
+    route: 'mediabuyer_dashboard.settings_edit'
+    fa_icon: 'fas fa-cog'
+  split-tests:
+    label: 'Сплит-тесты'
+    route: null
+    fa_icon: 'fas fa-vials'
+    tree_items:
+      news_types:
+        label: 'Дизайн страниц'
+        route: 'mediabuyer_dashboard.split_tests.design_list'
+      system_settings:
+        label: 'Алгоритмы'
+        route: 'mediabuyer_dashboard.split_tests.algorithm_list'
+  sources:
+    label: 'Источники'
+    route: 'mediabuyer_dashboard.sources_list'
+    fa_icon: 'fas fa-book-open'
+  partner:
+    label: 'Партнерки'
+    route: 'mediabuyer_dashboard.partner_list'
+    fa_icon: 'fas fa-user-friends'
+  expenses:
+    label: 'Расходы'
+    route: 'mediabuyer_dashboard.costs_list'
+    fa_icon: 'fas fa-money-bill-alt'
+  conversion:
+    label: 'Лиды'
+    route: 'mediabuyer_dashboard.conversion_list'
+    fa_icon: 'fa fa-chart-pie'
+  domen:
+    label: 'Парковка домена'
+    route: 'mediabuyer_dashboard.domain_list'
+    fa_icon: 'fas fa-server'
+  split-statistic:
+    label: 'Анализ трафика'
+    route: 'mediabuyer_dashboard.statistic.traffic_analysis_list'
+    fa_icon: 'fas fa-chart-bar'
+  black_list:
+    label: 'Блэк-листы'
+    route: 'mediabuyer_dashboard.black_list'
+    fa_icon: 'fa fa-list-alt'
+
+list:
+  news:
+    bulk_action_checkbox: true
+  sources:
+    bulk_action_checkbox: true
+  teaser:
+    bulk_action_checkbox: true
+  costs:
+    bulk_action_checkbox: true
+  statistic:
+    traffic_analysis:
+      bulk_action_checkbox: true
+
+group:
+  teaser:
+    bulk_action_checkbox: true
+
+footer:
+  content: '<strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Version</b> 3.0.4
+                </div>
+                '

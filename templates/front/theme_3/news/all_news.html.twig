@@ -1,0 +1,124 @@
+{% extends 'front/theme_3/base.html.twig' %}
+
+{% block title %}
+    Все новости
+{% endblock %}
+
+{% block body %}
+    <div class="container" id="containerOnPage">
+        <div id="grid" class="news row" style="position: relative;">
+            {% set val_for_col = (news | length) / 4 %}
+            <div class="all-news-block">
+                <div class="first_col">
+                    {% for item in news | slice (0, 3) %}
+                        <div class="grid-item item item-news">
+                            <a class="teaser teaser-news" href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               target="_blank" style="background: rgb(190, 148, 192);">
+                                <div class="teaser-image">
+                                    <div class="background"
+                                         style="background: linear-gradient(0deg, rgb(190, 148, 192) 0px, transparent 100%);"></div>
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="teaser-title" style="color: #212121;">
+                                    {{ item.title }}
+                                </div>
+                                <div class="category" style="color: #212121; background: rgb(190, 148, 192);">
+                                    Тип новости
+                                </div>
+                                <div class="button" style="display: none">
+                                    <div class="read-more">
+                                        Подробнее
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="second_col">
+                    {% for item in news | slice(3, 3) %}
+                        <div class="grid-item item item-news">
+                            <a class="teaser teaser-news" href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               target="_blank" style="background: rgb(190, 148, 192);">
+                                <div class="teaser-image">
+                                    <div class="background"
+                                         style="background: linear-gradient(0deg, rgb(190, 148, 192) 0px, transparent 100%);"></div>
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="teaser-title" style="color: #212121;">
+                                    {{ item.title }}
+                                </div>
+                                <div class="category" style="color: #212121; background: rgb(190, 148, 192);">
+                                    Тип новости
+                                </div>
+                                <div class="button" style="display: none">
+                                    <div class="read-more">
+                                        Подробнее
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="third_col">
+                    {% for item in news | slice(6, 2) %}
+                        <div class="grid-item item item-news">
+                            <a class="teaser teaser-news" href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               target="_blank" style="background: rgb(190, 148, 192);">
+                                <div class="teaser-image">
+                                    <div class="background"
+                                         style="background: linear-gradient(0deg, rgb(190, 148, 192) 0px, transparent 100%);"></div>
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="teaser-title" style="color: #212121;">
+                                    {{ item.title }}
+                                </div>
+                                <div class="category" style="color: #212121; background: rgb(190, 148, 192);">
+                                    Тип новости
+                                </div>
+                                <div class="button" style="display: none">
+                                    <div class="read-more">
+                                        Подробнее
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="fourth_col">
+                    {% for item in news | slice(8) %}
+                        <div class="grid-item item item-news">
+                            <a class="teaser teaser-news" href="{{ news_click_counter_link(item, {'pageType': 'top'}) }}"
+                               target="_blank" style="background: rgb(190, 148, 192);">
+                                <div class="teaser-image">
+                                    <div class="background"
+                                         style="background: linear-gradient(0deg, rgb(190, 148, 192) 0px, transparent 100%);"></div>
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}">
+                                </div>
+                                <div class="teaser-title" style="color: #212121;">
+                                    {{ item.title }}
+                                </div>
+                                <div class="category" style="color: #212121; background: rgb(190, 148, 192);">
+                                    Тип новости
+                                </div>
+                                <div class="button" style="display: none">
+                                    <div class="read-more">
+                                        Подробнее
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="news row" style="position: relative;">
+            <p align="center" id="loading" style="display: none; margin-left: auto; margin-right: auto">
+                <img src="{{ asset('assets/theme_1/static/images/load.gif') }}" alt="Loading…">
+            </p>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/front/js/theme_4/top_news_script.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

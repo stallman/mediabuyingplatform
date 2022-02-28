@@ -1,0 +1,46 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Список пользователей{% endblock %}
+
+{% block table_body %}
+
+    {% for user in users %}
+        <tr role="row" class="odd" {% if user.status == false %}style="background-color: #a7a3a3;"{% endif %}>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                {% if user.role == 'ROLE_ADMIN' %}
+                    Админ
+                {% elseif user.role == 'ROLE_MEDIABUYER' %}
+                    Медиабайер
+                {% elseif user.role == 'ROLE_JOURNALIST' %}
+                    Журналист
+                {% endif %}
+            </td>
+
+
+            <td>{{ user.status ? 'активен' : 'неактивен' }}</td>
+            <td>{{ user.nickname }}</td>
+            <td>{{ user.telegram }}</td>
+            <td style="width: 20%; text-align: center">
+                {% block action_buttons %}
+                    <div class="btn-group">
+                        <a href="{{ path('admin_dashboard.user_edit', {
+                            'id': user.id
+                        }) }}" role="button" class="btn btn-info" title="Редактировать">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        {% if user.status %}
+                        <a href="{{ path('admin_dashboard.user_login', {
+                            'id': user.id
+                        }) }}" role="button"
+                           class="btn btn-success" title="Войти">
+                            <i class="far fa-eye"></i> Войти
+                        </a>
+                        {% endif %}
+                    </div>
+                {% endblock %}
+            </td>
+        </tr>
+
+    {% endfor %}
+{% endblock %}

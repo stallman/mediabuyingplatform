@@ -1,0 +1,54 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Конверсия{% endblock %}
+
+{% set convert_path = path('admin_dashboard.conversion_bulk_convert') %}
+{% set delete_path = path('admin_dashboard.conversion_bulk_delete') %}
+{% block bulk_actions_checkobx %}{% endblock %}
+
+{% block table_body %}
+    <div class="bulk-actions-block" style="margin: 20px 0;">
+        <form id="reload" action="{{ path('admin_dashboard.conversion_list') }}" method="get"></form>
+            <p>Показать лиды с: <input name="from" type="text" id="from" value="" placeholder="Начало периода"> по: <input
+                        name="to" type="text" id="to" value="" placeholder="Конец периода">
+                <button class="btn btn-info" type="submit" id="date-filter">Отфильтровать</button>
+                <button class="btn btn-info" type="submit" form="reload">Сбросить</button>
+            </p>
+        <div id="period-link">
+            <a href="#" data-period="today">Сегодня </a>
+            <a href="#" data-period="yesterday">Вчера</a>
+            <a href="#" data-period="week">7 дней</a>
+            <a href="#" data-period="two-week">14 дней</a>
+            <a href="#" data-period="current-month">Этот месяц</a>
+            <a href="#" data-period="last-month">Прошлый месяц</a>
+            <a href="#" data-period="current-year">С начала года</a>
+            <a href="#" data-period="last-year">Прошлый год</a>
+            <input name="period" type="hidden" id="period" value="">
+        </div>
+    </div>
+        <tr role="row" class="odd">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="width: 20%; text-align: center">
+                {% block action_buttons %}
+                    <div class="btn-group">
+                    </div>
+                {% endblock %}
+            </td>
+        </tr>
+    <script src="{{ asset('assets/dashboard/js/common/datepicker-from-to.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/filter-by-date.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script>
+        $(document).ready(function() {
+            console.log($($('th')[0]).attr('id', 'sorting_disabled'));
+        });
+    </script>
+{% endblock %}

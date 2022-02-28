@@ -1,0 +1,9 @@
+<div class="header-my-links" id="header-my-links">
+    {% for category in categories %}
+        <a href="{{ path('front.show_by_category', {
+            'slug': category.slug
+        }) }}" target="_blank" class="some-links">
+            {{ category.title }}
+        </a>
+    {% endfor %}
+</div>

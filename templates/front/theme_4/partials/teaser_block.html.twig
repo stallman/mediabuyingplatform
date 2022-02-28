@@ -1,0 +1,19 @@
+{% if teaser %}
+    <div class="item">
+        <a href="{{ teasers_click_counter_link(teaser, article, {'pageType': 'full'})}}" style="text-decoration: none; color: inherit;"
+           target="_blank">
+            <div class="item-container_small">
+                <div class="item-cover_small">
+                    <picture>
+                        <img src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}"
+                             class="item-cover-img_small"></picture>
+                </div>
+                <div class="item-title_small">
+                    <div class="item-link_small">
+                        <span class="item-link-text">{{ get_city(teaser.text, city) | raw }}</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+{% endif %}

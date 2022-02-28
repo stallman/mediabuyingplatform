@@ -1,0 +1,66 @@
+{% extends 'front/theme_4/base.html.twig' %}
+
+{% block title %}
+    {{ newsCategory }}
+{% endblock %}
+
+{% block body %}
+    <div class="list">
+        <div class="row" id="load_main">
+            <input id="slug" type="hidden" value="{{ (app.request.getBaseUrl ~ app.request.getPathInfo) | slice( 12 ) }}"/>
+
+            {% set someSizeControlVal = 1 %}
+            {% set someSize = '-size-xs' %}
+
+            {% for item in news %}
+                {% if someSizeControlVal < 5 %}
+                    {% set someSize = '-size-xs' %}
+                    {% set someSizeControlVal = someSizeControlVal + 1 %}
+                {% elseif someSizeControlVal == 5 or someSizeControlVal == 10 or someSizeControlVal == 11 or someSizeControlVal == 12 %}
+                    {% set someSize = '-size-m' %}
+                    {% if someSizeControlVal == 12 %}
+                        {% set someSizeControlVal = 1 %}
+                    {% else %}
+                        {% set someSizeControlVal = someSizeControlVal + 1 %}
+                    {% endif %}
+                {% elseif someSizeControlVal > 5 and someSizeControlVal < 10 %}
+                    {% set someSize = '-size-xs' %}
+                    {% set someSizeControlVal = someSizeControlVal + 1 %}
+                {% endif %}
+
+                <div class="item {{ someSize }} -theme-white">
+                    <a href="{{ news_click_counter_link(item, {'pageType': 'category'}) }}" style="text-decoration: none;" target="_blank">
+                        <div class="item-container">
+                            <div class="item-cover">
+                                <div class="item-cover-thumb">
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}"
+                                         class="item-cover-img">
+                                    <img src="{{ generate_preview_link(item.fileName, 'news',  width_news_block, height_news_block ) }}"
+                                         class="item-cover-blur">
+                                    <div class="item-cover-mask"
+                                         style="background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.91) 88%, rgb(0, 0, 0) 100%);"></div>
+                                </div>
+                            </div>
+                            <div class="item-content">
+                                <div class="item-category">
+                                </div>
+                                <div class="item-title" style="color: rgb(249, 249, 249);">
+                                    <div class="item-link">
+                                        <span class="item-link-text">{{ item.title }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <p align="center" id="loading" style="display: none;">
+            <img src="{{ asset('assets/theme_1/static/images/load.gif') }}" alt="Loading…">
+        </p>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/front/js/theme_5/category_news_script.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

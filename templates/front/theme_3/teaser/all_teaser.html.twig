@@ -1,0 +1,95 @@
+{% extends 'front/theme_3/base.html.twig' %}
+
+{% block title %}
+    Все тизеры
+{% endblock %}
+
+{% block body %}
+    <div class="container" id="containerOnPage">
+        <div id="grid" class="teasers row">
+            <div class="all-news-block">
+                <div class="first_col">
+                    {% for teaser in teasers | slice (0, 3) %}
+                        <div class="grid-item item item-product">
+                            <a class="teaser teaser-product" href="{{ teasers_click_counter_link(teaser, null, {'pageType': 'top'})}}" target="_blank" style="background: rgb(198, 140, 144);">
+                                <div class="teaser-image">
+                                    <div class="background" style="background: linear-gradient(0deg, rgb(198, 140, 144) 0px, transparent 100%);"></div>
+                                    <img class="img-fluid" src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block ) }}" alt="">
+                                    <div class="category" style="color: #212121; background: rgb(198, 140, 144);">
+                                        Лучшее
+                                    </div>
+                                </div>
+                                <div class="teaser-title" style="color: #212121;">
+                                    {{ teaser.text }}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="second_col">
+                    {% for teaser in teasers | slice(3, 3) %}
+                        <div class="grid-item item item-product">
+                            <a class="teaser teaser-product" href="{{ teasers_click_counter_link(teaser, null, {'pageType': 'top'})}}" target="_blank" style="background: rgb(198, 140, 144);">
+                                <div class="teaser-image">
+                                    <div class="background" style="background: linear-gradient(0deg, rgb(198, 140, 144) 0px, transparent 100%);"></div>
+                                    <img class="img-fluid" src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block ) }}" alt="">
+                                    <div class="category" style="color: #212121; background: rgb(198, 140, 144);">
+                                        Лучшее
+                                    </div>
+                                </div>
+                                <div class="teaser-title" style="color: #212121;">
+                                    {{ teaser.text }}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="third_col">
+                    {% for teaser in teasers | slice(6, 2) %}
+                        <div class="grid-item item item-product">
+                            <a class="teaser teaser-product" href="{{ teasers_click_counter_link(teaser, null, {'pageType': 'top'})}}" target="_blank" style="background: rgb(198, 140, 144);">
+                                <div class="teaser-image">
+                                    <div class="background" style="background: linear-gradient(0deg, rgb(198, 140, 144) 0px, transparent 100%);"></div>
+                                    <img class="img-fluid" src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block ) }}" alt="">
+                                    <div class="category" style="color: #212121; background: rgb(198, 140, 144);">
+                                        Лучшее
+                                    </div>
+                                </div>
+                                <div class="teaser-title" style="color: #212121;">
+                                    {{ teaser.text }}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="fourth_col">
+                    {% for teaser in teasers | slice(8) %}
+                        <div class="grid-item item item-product">
+                            <a class="teaser teaser-product" href="{{ teasers_click_counter_link(teaser, null, {'pageType': 'top'})}}" target="_blank" style="background: rgb(198, 140, 144);">
+                                <div class="teaser-image">
+                                    <div class="background" style="background: linear-gradient(0deg, rgb(198, 140, 144) 0px, transparent 100%);"></div>
+                                    <img class="img-fluid" src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block ) }}" alt="">
+                                    <div class="category" style="color: #212121; background: rgb(198, 140, 144);">
+                                        Лучшее
+                                    </div>
+                                </div>
+                                <div class="teaser-title" style="color: #212121;">
+                                    {{ teaser.text }}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="news row" style="position: relative;">
+            <p align="center" id="loading" style="display: none; margin-left: auto; margin-right: auto">
+                <img src="{{ asset('assets/theme_1/static/images/load.gif') }}" alt="Loading…">
+            </p>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/front/js/theme_4/teasers_script.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

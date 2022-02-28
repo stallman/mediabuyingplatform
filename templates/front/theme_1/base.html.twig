@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block stylesheets %}{% endblock %}
+    {{ get_counters()['head'] | raw }}
+    {{ render_send_pulse_script() | raw }}
+</head>
+<body>
+{% block header %}
+    <header class="header">
+        <div class="some-wrapper">
+            {{ render_nav_bar() | raw }}
+        </div>
+        <input id="page_number" type="hidden" value='{{ page_number ?? 1 }}'/>
+        <input id="is_ajax_load" type="hidden" value="{{ block_count }}"/>
+    </header>
+{% endblock %}
+{% block body %}{% endblock %}
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/node_modules/jquery/dist/jquery.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/node_modules/jquery.cookie/jquery.cookie.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+    <!-- script -->
+    <script src="{{ asset('assets/theme_1/static/js/script.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+    <script src="{{ asset('assets/front/js/common/backfix.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/common/click-under.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/common/visit-request.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}
+{% if 'desktop' == get_device() %}
+    {% include 'front/common/modal_adv.html.twig' %}
+{% endif %}
+{{ get_counters()['body'] | raw }}
+</body>
+</html>

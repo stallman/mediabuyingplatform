@@ -1,0 +1,79 @@
+
+{% block main_content %}
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-12">
+                <!-- /.card -->
+                <div class="card">
+                    {% block card %}
+                        <div class="card-header">
+                            {% block card_header %}
+                                {% block new_button %}
+                                    {% if new_button_action_link is defined %}
+                                        <a href="{{ new_button_action_link }}" role="button" class="btn btn-info"><i
+                                                    class="fas fa-plus"></i>&nbsp;{{ new_button_label }}</a>
+                                    {% endif %}
+                                {% endblock %}
+                            {% endblock %}
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            {% block card_body %}
+                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="data-table"
+                                                   class="table table-bordered table-striped dataTable dtr-inline"
+                                                   role="grid" aria-describedby="example1_info">
+                                                <thead>
+                                                <tr role="row">
+                                                    {% block table_header %}
+                                                        {% include 'dashboard/admin/partials/table/header.html.twig' with {'columns': columns} %}
+                                                    {% endblock %}
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% block table_body %}{% endblock %}
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    {% block table_footer %}
+                                                        {% include 'dashboard/admin/partials/table/header.html.twig' with {'columns': columns} %}
+                                                    {% endblock %}
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endblock %}
+                        </div>
+                        <!-- /.card-body -->
+                    {% endblock %}
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ asset('assets/dashboard/plugins/datatables/jquery.dataTables.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script>
+        $(function () {
+            $('#data-table').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+{% endblock %}

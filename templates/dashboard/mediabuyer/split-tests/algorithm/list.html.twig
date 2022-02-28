@@ -1,0 +1,24 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Алгоритмы{% endblock %}
+{% block bulk_actions_checkobx %}{% endblock %}
+
+{% block table_body %}
+
+    {{ render_update_chron_data_info(app.user, 'aggregate-algr-stat') | raw() }}
+    <div> &nbsp; </div>
+
+    {% for algorithm in algorithms %}
+            <tr role="row" class="odd">
+                <td>{{ render_active_checkbox_by_fields(algorithm) | raw }}</td>
+                <td>{{ algorithm['name'] }}</td>
+                <td>{{ algorithm['CTR'] }}</td>
+                <td>{{ algorithm['conversion'] }}</td>
+                <td>{{ algorithm['approveConversion'] }}</td>
+                <td>{{ convert_to_user_currency(algorithm['eCPM'], app.user, ruble) }}</td>
+                <td>{{ convert_to_user_currency(algorithm['EPC'], app.user, ruble) }}</td>
+                <td>{{ algorithm['CR'] }}</td>
+                <td>{{ algorithm['ROI'] }}</td>
+            </tr>
+    {% endfor %}
+    <script src="{{ asset('assets/dashboard/js/common/buyer-activate-entity.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% if images is not null %}
+    {% for title, image in images %}
+        <img id="{{ title }}" title="{{ title }} image" src="{{ asset(image) }}" style="height: 300px; margin-right: 10px;">
+    {% endfor %}
+    <div>
+        <button id="recrop">Изменить кроп</button>
+    </div>
+{% endif %}

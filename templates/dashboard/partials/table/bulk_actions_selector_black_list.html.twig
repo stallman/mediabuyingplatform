@@ -1,0 +1,28 @@
+<div class="bulk-actions-block ml-auto col-md-6 col-lg-5 col-xl-3 ml-auto">
+    <div class="input-group row justify-content-end align-content-end m-0">
+        <select class="custom-select col-md-8" id="bulk-actions-selector" style="min-width: 65%">
+            <option disabled selected>Массовые действия</option>
+            {% if (add_to_black_path) is defined %}
+                <option value="add_to_black" data-url="{{ add_to_black_path }}">Добавить в Блек
+                </option>
+            {% endif %}
+            {% if (add_to_white_path) is defined %}
+                <option value="add_to_white" data-url="{{ add_to_white_path }}">Добавить в Вайт
+                </option>
+            {% endif %}
+            {% if (remove_from_black_path) is defined %}
+                <option value="remove_from_black" data-url="{{ remove_from_black_path }}">Удалить из Блека
+                </option>
+            {% endif %}
+            {% if (remove_from_white_path) is defined %}
+                <option value="remove_from_white" data-url="{{ remove_from_white_path }}">Удалить из Вайта
+                </option>
+            {% endif %}
+        </select>
+        <div id="black-list-select" style="display: none">
+        </div>
+        <div class="input-group-append col-md-4 p-0">
+            <button class="btn btn-outline-primary btn-block is-black-list-submit" id="bulk-actions-submit" type="button">Сохранить</button>
+        </div>
+    </div>
+</div>

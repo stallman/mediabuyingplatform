@@ -1,0 +1,95 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{{ asset('assets/node_modules/datatables/media/css/jquery.dataTables.min.css') }}?v={{ get_env('CSS_VERSION') }}">
+    <link rel="stylesheet" href="{{ asset('assets/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}?v={{ get_env('CSS_VERSION') }}">
+    <link rel="stylesheet" href="{{ asset('assets/node_modules/jquery-ui-dist/jquery-ui.css') }}?v={{ get_env('CSS_VERSION') }}">
+{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-12">
+                <!-- /.card -->
+                <div class="card">
+                    {% block card %}
+                        <div class="card-header row">
+                            {% block card_header %}
+                                {% block new_button %}
+                                    {% if new_button_action_link is defined %}
+                                    <a href="{{ new_button_action_link }}" role="button" class="d-flex justify-content-center align-items-center btn btn-info"><i class="fas fa-plus mr-2"></i>&nbsp;{{ new_button_label }}</a>
+                                    {% endif %}
+                                    {% if app.request.pathinfo | slice(0, 18) == '/mediabuyer/costs/' %}
+                                        <button class="d-flex justify-content-center align-items-center btn btn-info costs-mass-edit ml-3"><i class="fas fa-edit mr-2"></i> Изменить расходы</button>
+                                    {% endif %}
+
+                                    {% if convert_path is not defined %}
+                                        {% set convert_path = null %}
+                                    {% endif %}
+                                    {% if (delete_path is defined) and (set_active_path is defined) and (set_disable_path is defined) %}
+                                        {% if (change_subgroup_path is defined) %}
+                                            {{ render_bulk_action_selector(delete_path, set_active_path, set_disable_path, change_subgroup_path, convert_path) | raw }}
+                                        {% else %}
+                                            {{ render_bulk_action_selector(delete_path, set_active_path, set_disable_path, null, convert_path) | raw }}
+                                        {% endif %}
+                                    {% elseif (delete_path is defined) %}
+                                        {{ render_bulk_action_selector(delete_path, null, null, null, convert_path) | raw }}
+                                    {% elseif (add_black_path is defined) and (add_white_path is defined) and (remove_from_black_path is defined) and (remove_from_white_path is defined)%}
+                                        {{ render_bulk_item_checkbox_black_list(add_black_path, add_white_path, remove_from_black_path, remove_from_white_path) | raw }}
+                                    {% endif %}
+
+
+                                {% endblock %}
+                            {% endblock %}
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            {% block card_body %}
+                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="data-table"
+                                                   class="table table-bordered table-striped dataTable dtr-inline"
+                                                   role="grid" aria-describedby="example1_info">
+                                                <thead>
+                                                <tr role="row">
+
+                                                    {{ render_bulk_checkbox(app.request.get('_route')) | raw }}
+
+                                                    {% block table_header %}
+                                                        {% include 'dashboard/partials/table/header.html.twig' with {'columns': columns} %}
+                                                    {% endblock %}
+
+                                                </tr>
+                                                </thead>
+                                                <tbody id="tbody">
+                                                {% block table_body %}{% endblock %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% block other_data %}
+                                {% if save_button_action_link is defined %}
+                                    <a href="#" role="button" class="btn btn-info" id="save-button" data-url="{{ save_button_action_link }}"><i class="fas fa-save"></i> {{ save_button_label }}</a>
+                                {% endif %}
+                            {% endblock %}
+                            {% endblock %}
+                        </div>
+                        <!-- /.card-body -->
+                    {% endblock %}
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('assets/node_modules/datatables/media/js/jquery.dataTables.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/node_modules/datatables.net-fixedheader/js/dataTables.fixedHeader.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/delete-ajax.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/data-table-setup.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/filter-news.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/news-sources-list-modal.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/costs-mass-edit.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/bulk-actions.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

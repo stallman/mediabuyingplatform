@@ -1,0 +1,40 @@
+.some-wrapper{
+    width: 100vw;
+}
+
+.icon{
+    display: none;
+    margin-left: auto;
+    margin-right: 20px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.header-my-links{
+    display: none;
+}
+
+@media (max-width: 991px){
+    .header__nav{
+        display: none;
+    }
+    .icon{
+        display: block;
+        max-width: 22px;
+    }
+    .header-my-links{
+        flex-direction: column;
+    }
+    .header-my-links a{
+        color: #ffffff!important;
+        text-decoration: none;
+        margin: auto;
+        margin-bottom: 15px;
+    }
+    .some-links:hover {
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #0090ff;
+        padding: 5px;
+    }
+}

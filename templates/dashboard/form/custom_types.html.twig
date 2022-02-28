@@ -1,0 +1,101 @@
+{% block
+    wysiwyg_editor_row %}
+    {% set label = form.vars.label %}
+    {% block form_errors -%}
+        {%- if errors|length > 0 -%}
+            <span class="{% if form is not rootform %}invalid-feedback{% else %}alert alert-danger{% endif %} d-block">
+            {%- for error in errors -%}
+                <span class="d-block">
+                    <span class="form-error-icon badge badge-danger text-uppercase">{{ 'Error'|trans({}, 'validators') }}</span> <span class="form-error-message">{{ error.message }}</span>
+                </span>
+            {%- endfor -%}
+        </span>
+        {%- endif %}
+    {%- endblock form_errors %}
+    <div class="form-group">
+        <label>{{ label }}</label>
+        <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    </div>
+    <link rel="stylesheet" href="{{ asset('assets/node_modules/summernote/dist/summernote-bs4.min.css') }}?v={{ get_env('CSS_VERSION') }}">
+    <script src="{{ asset('assets/node_modules/summernote/dist/summernote-bs4.min.js') }}?v={{ get_env('CSS_VERSION') }}"></script>
+    <script>
+        let teaserBlock = function (context) {
+            let ui = $.summernote.ui;
+
+            let button = ui.button({
+                contents: '[teaser block]',
+                tooltip: 'Teaser block',
+                click: function () {
+                    context.invoke('editor.insertText', '[teaser block]');
+                }
+            });
+
+            return button.render();
+        }
+
+        $(function () {
+            // Summernote
+            $('.wysiwyg-editor').summernote({
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                    ['mybutton', ['teaserBlock']]
+                ],
+                buttons: {
+                    teaserBlock: teaserBlock
+                }
+            })
+        })
+    </script>
+{% endblock %}
+
+{% block
+    image_upload_row %}
+    {% set label = form.vars.label %}
+    <div class="form-group" id="image-upload-form-group">
+        <label>{{ label }}</label>
+        <input type="hidden" id="coord-x" name="cropParams[coord_x]" value="" />
+        <input type="hidden" id="coord-y" name="cropParams[coord_y]" value="" />
+        <input type="hidden" id="width" name="cropParams[width]" value="" />
+        <input type="hidden" id="height" name="cropParams[height]" value="" />
+        <input type="file" id="fileInput" name="image" {{ block('widget_attributes') }} accept="image/*"/>
+        <div class="img-container">
+            <img src="" style="max-width: 700px; max-height: 700px;" id="target" alt="">
+        </div>
+        <small class="form-text text-muted">{{ image_uploader_info() }}</small>
+    </div>
+    <div>
+        {{ get_images_preview(form.parent.vars.value) | raw }}
+    </div>
+    <script src="{{ asset('assets/dashboard/js/common/crop-image.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}
+
+{% block teasers_sub_group_settings_row %}
+<div class="collection-type-fieldset">
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+
+    {% if form.vars.data is not null %}
+        {% if form.vars.data.id is not null %}
+            {% set settings_group_id = form.vars.data.id %}
+        {% endif %}
+    {% endif %}
+
+    {{- block('form_widget') -}}
+
+    {% if form.vars.name > 0 %}
+    <button type="button" class="btn btn-danger delete-collection-button"
+            data-todelete="{{ form.vars.id }}"
+            {% if settings_group_id is defined %}data-settings-id="{{ settings_group_id }}" {% endif %}
+    >Удалить</button>
+    {% endif %}
+</div>
+{% endblock %}

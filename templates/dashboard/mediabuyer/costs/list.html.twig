@@ -1,0 +1,48 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Расходы{% endblock %}
+{% set delete_path = path('mediabuyer_dashboard.costs_bulk_delete') %}
+{% block bulk_actions_checkobx %}{% endblock %}
+{% block table_body %}
+            <div class="costs-mass-edit-error-alert alert alert-danger" style="display:none;">
+                Выберите строки расходов, которые надо редактировать.
+            </div>
+            <tr role="row" class="odd">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="width: 20%; text-align: center">
+                    {% block action_buttons %}
+                        <div class="btn-group">
+                        </div>
+                    {% endblock %}
+                </td>
+            </tr>
+
+            <div class="modal" id="costs-mass-edit-modal" tabindex="-1" role="dialog">
+                <form id="costs-mass-edit-form" acion="/mediabuyer/costs/mass-edit" method="POST">
+                    <div class="modal-dialog" style="width: 600px;" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body row">
+                                <input class="form-control col-md-4" style="margin: 0 10px;" name="summ" placeholder="сумма расхода" required>
+                                <select class="form-control col-md-4"  style="margin: 0 10px;" name="currency" >
+                                    {% for currency in currencyList %}
+                                        <option value="{{currency.getId()}}">{{currency.getName()}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="costs-mass-edit-form-error-alert alert alert-danger" style="display:none;"></div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Парковка домена{% endblock %}
+{% block bulk_actions_checkobx %}{% endblock %}
+
+{% block table_body %}
+
+    <div class="update-cron-date-info">
+        {% if(cron_date is null) %}
+            <p>Данные еще не обновлялись</p>
+        {% else %}
+            <p>Данные обновлены {{ cron_date }} MSK.</p>
+        {% endif %}
+    </div>
+
+    {% for domain in domains %}
+        <tr role="row" class="odd">
+            <td>{{ domain.id }}</td>
+            <td {% if(domain.errorMessage) %} style="color: red" {% endif %}>
+                {{ domain.domain }}
+                {% if(domain.errorMessage) %}
+                    <a href="#" role="button"
+                       class="btn btn-danger domain-error-button"
+                       data-data="{{ domain.errorMessage }}"
+                       data-toggle="tooltip" data-placement="top" title="Посмотреть ошибку"
+                    >
+                        <i class="fas fa-exclamation"></i>
+                    </a> {% endif %}
+            </td>
+            <td style="text-align: center">{% if domain.isMain %}<i class="fa fa-check"
+                                                                    aria-hidden="true"></i>{% endif %}</td>
+            <td>{{ domain.sendPulseId }}</td>
+            <td>{{ domain.certEndDate is empty ? "" : domain.certEndDate|date('d.m.Y ') }}</td>
+            <td style="width: 20%; text-align: center">
+                {% block action_buttons %}
+                    <div class="btn-group">
+                        <a href="{{ path('mediabuyer_dashboard.domain_edit', {
+                            'id': domain.id
+                        }) }}" role="button" class="btn btn-info" title="Редактировать">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <a href="#" role="button"
+                           data-delete-url="{{ path('mediabuyer_dashboard.domain_parking_delete', {'id': domain.id}) }}"
+                           class="btn btn-danger btn-delete"
+                           data-toggle="tooltip" data-placement="top" title="Удалить"
+                        >
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+
+                        {% if domain.isMain %}
+                            <a href="{{ path('mediabuyer_dashboard.domain_active_main', {'id': domain.id})  }}" role="button"
+                               class="btn btn-warning"
+                               data-toggle="tooltip" data-placement="top" title="Сделать неосновным"
+                            >
+                                <i class="fas fa-ban"></i>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('mediabuyer_dashboard.domain_active_main', {'id': domain.id})  }}" role="button"
+                               class="btn btn-success"
+                               data-toggle="tooltip" data-placement="top" title="Сделать основным"
+                            >
+                                <i class="fas fa-check-square"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endblock %}
+            </td>
+        </tr>
+    {% endfor %}
+    <script src="{{ asset('assets/dashboard/js/common/domain-error-modal.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}
+{% block other_data %}
+    <p>В настройках DNS укажите:</p>
+    <p>Для CNAME-записи - {{ host }}</p>
+    <p>Для А-записи - {{ip }}</p>
+{% endblock %}

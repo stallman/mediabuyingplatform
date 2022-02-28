@@ -1,0 +1,89 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Группы и подгруппы{% endblock %}
+
+{% block bulk_actions_checkobx %}{% endblock %}
+
+{% set set_active_path = path('mediabuyer_dashboard.teasers_groups_bulk_set_active') %}
+{% set set_disable_path = path('mediabuyer_dashboard.teasers_groups_bulk_set_disable') %}
+{% set delete_path = path('mediabuyer_dashboard.teasers_groups_bulk_delete') %}
+
+{% block table_body %}
+
+    {% set i = 0 %}
+
+   <div><form id="bulk-actions-form" method="post"></form></div>
+
+    {% for teaser_group in teaser_groups %}
+        {% set i = i+1 %}
+        <tr role="row" class="odd" id="{{ teaser_group.id }}" style="background-color: #a7a3a3;">
+            {{ render_bulk_item_checkbox_as_form(app.request.get('_route'), teaser_group) | raw }}
+            <td>{{ teaser_group.name }}</td>
+            <td>{{ teaser_group.getCreatedAt }}</td>
+            <td></td>
+            <td style="text-align: center">{% if teaser_group.isActive %}<i class="fa fa-check"
+                                                                               aria-hidden="true"></i>{% endif %}</td>
+            <td style="display:none;">{{ i }}</td>
+            <td style="width: 20%; text-align: center">
+                {% block action_buttons %}
+                    <div class="btn-group">
+                        <a href="{{ path('mediabuyer_dashboard.teaser_sub_group_add', {
+                            'id': teaser_group.id
+                        }) }}" role="button" class="btn btn-success"
+                           data-toggle="tooltip" data-placement="top" title="Добавить подгруппу">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="{{ path('mediabuyer_dashboard.teaser_group_edit', {
+                            'id': teaser_group.id
+                        }) }}" role="button" class="btn btn-info"
+                           data-toggle="tooltip" data-placement="top" title="Редактировать">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <a href="#" role="button"
+                           data-delete-url="{{ path('mediabuyer_dashboard.teaser_group_delete', {'id': teaser_group.id}) }}"
+                           class="btn btn-danger btn-delete"
+                           data-toggle="tooltip" data-placement="top" title="Удалить">
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                    </div>
+                {% endblock %}
+            </td>
+        </tr>
+        {% if teaser_group.teasersSubGroup is iterable %}
+            {% for children in teaser_group.teasersSubGroup %}
+                {% if children.isDeleted == 0 %}
+                    {% set i=i+1 %}
+                    <tr role="row" id="{{ children.id }}" class="child-of-{{ teaser_group.id }} odd">
+                        {{ render_bulk_item_checkbox_as_form(app.request.get('_route'), children) | raw }}
+                        <td><p>{{ children.name }}</p></td>
+                        <td>{{ children.getCreatedAt }}</td>
+                        <td>{{ teasers_count_by_subgroup(children) }}</td>
+                        <td style="text-align: center">{% if children.isActive %}<i class="fa fa-check"
+                                                                                       aria-hidden="true" {% if not teaser_group.isActive %} style="color: #afafaf !important;" {% endif %}></i>{% endif %}
+                        </td>
+                        <td style="display:none;">{{ i }}</td>
+                        <td style="width: 20%; text-align: center">
+                            {% block child_action_buttons %}
+                                <div class="btn-group">
+                                    <a href="{{ path('mediabuyer_dashboard.teaser_sub_group_edit', {
+                                        'id': children.id
+                                    }) }}" role="button" class="btn btn-info"
+                                       data-toggle="tooltip" data-placement="top" title="Редактировать">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                    <a href="#" role="button"
+                                       data-delete-url="{{ path('mediabuyer_dashboard.teaser_sub_group_delete', {'id': children.id}) }}"
+                                       class="btn btn-danger btn-delete"
+                                       data-toggle="tooltip" data-placement="top" title="Удалить">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            {% endblock %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    {% endfor %}
+
+{% endblock %}

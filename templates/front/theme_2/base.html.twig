@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('assets/theme_2/static/css/styles.css') }}?v={{ get_env('CSS_VERSION') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('assets/theme_2/static/css/burger_menu.css') }}?v={{ get_env('CSS_VERSION') }}">
+    {% endblock %}
+    {{ get_counters()['head'] | raw }}
+    {{ render_send_pulse_script() | raw }}
+</head>
+
+
+<body>
+
+{% block header %}
+    <!--header-->
+    <header class="header decorated-bottom">
+        <div class="center-wrapper">
+            <div class="header__inner">
+                <div class="header__columns">
+
+                    <div class="header__column">
+                        <a href="/" class="logotype">
+                            вестник
+                        </a>
+                    </div>
+
+                    <div class="header__column hidden" id="header-menu">
+                        {{ render_theme_2_nav_bar() | raw }}
+                    </div>
+                    <div class="header__column">
+{#                        <span class="icon" onclick="openMenu()">☰</span>#}
+                        <input id="menu__toggle" type="checkbox" />
+                        <label class="menu__btn" onclick="openMenu()" for="menu__toggle">
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ render_theme_2_burger_menu() | raw}}
+        <input id="page_number" type="hidden" value='{{ page_number ?? 1 }}'/>
+        <input id="is_ajax_load" type="hidden" value="{{ block_count }}"/>
+    </header>
+    <!--\header-->
+{% endblock %}
+
+{% block body %}{% endblock %}
+
+{% block footer %}
+    <footer class="footer">
+        <div class="center-wrapper">
+            <div class="footer__inner">
+                <div class="footer-columns">
+                    <div class="footer-column">
+                        <div class="info-links">
+                            <span class="about">О проекте</span>
+                            <span class="contacts">Контакты</span>
+                        </div>
+                        <div class="copyright">
+                            Copyright © {{ "now"|date("Y") }} «Вестник.online»<br>
+                            Все права защищены. <br class="hide show-on-1000">
+                            Для детей старше 16 лет
+                        </div>
+                    </div>
+                    <div class="footer-column">
+                        <div class="socials socials_footer">
+                            <a href="https://twitter.com/share?url=https://news-fancy.com/20309-doch-iosifa-kobzona-esli-papa-ne-rugalsya-my-dumali-chto-on-zabolel-short.html"
+                               class="social-net social-net_twitter"></a>
+                            <a href="https://www.facebook.com/share.php?u=https://news-fancy.com/20309-doch-iosifa-kobzona-esli-papa-ne-rugalsya-my-dumali-chto-on-zabolel-short.html"
+                               class="social-net social-net_facebook"></a>
+                            <a href="https://vk.com/share.php?url=https://news-fancy.com/20309-doch-iosifa-kobzona-esli-papa-ne-rugalsya-my-dumali-chto-on-zabolel-short.html"
+                               class="social-net social-net_vkontakte"></a>
+                            <a href="https://telegram.me/share/url?url=https://news-fancy.com/20309-doch-iosifa-kobzona-esli-papa-ne-rugalsya-my-dumali-chto-on-zabolel-short.html"
+                               class="social-net social-net_telegram"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/node_modules/jquery/dist/jquery.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/node_modules/jquery.cookie/jquery.cookie.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+    <!-- Burger menu -->
+    <script src="{{ asset('assets/theme_2/static/js/burger_menu.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+    <script src="{{ asset('assets/front/js/common/backfix.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/common/click-under.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/common/visit-request.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/front/js/common/change_date.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}
+{% if 'desktop' == get_device() %}
+    {% include 'front/common/modal_adv.html.twig' %}
+{% endif %}
+{{ get_counters()['body'] | raw }}
+</body>
+</html>

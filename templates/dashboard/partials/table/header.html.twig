@@ -1,0 +1,56 @@
+{% if columns is iterable %}
+    {% for column in columns %}
+        <th class="sorting {% if (column["label"] is defined and (column['label'] == 'Заголовок' or column['label'] ==
+            'Текст')) %}text-class{% endif %}{% if (column['label'] is defined and column['label'] == 'Статистика') %}th-hidden{% endif %}"
+            tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+            aria-label="Rendering engine: activate to sort column ascending"
+            {% if (column["title"] is defined) %} title="{{ column["title"] }}" {% endif %}
+            {% if (column["hidden"] is defined and column["hidden"]) %} style="display:none;" {% endif %}
+            {% if (column["sortable"] is defined and column["sortable"])%} data-sortable-column="active" {% endif %}
+            {% if (column["defaultTableOrder"] is defined) %} data-sortable-order="{{ column["defaultTableOrder"] }}" {% endif %}
+            {% if (column["columnName"] is defined) %} data-column-name="{{ column["columnName"] }}" {% endif %}
+            {% if (column["paging"] is defined) %} data-paging="{{ column["paging"] }}" {% endif %}
+            {% if (column["pagingServerSide"] is defined) %} data-paging-server-side="{{ column["pagingServerSide"] }}" {% endif %}
+            {% if (column["ajaxUrl"] is defined) %} data-ajax-url="{{ column["ajaxUrl"] }}" {% endif %}
+            {% if (column["binfo"] is defined) %} data-binfo="{{ column["binfo"] }}" {% endif %}
+            {% if (column["searching"] is defined) %} data-searching="{{ column["searching"] }}" {% else %} data-searching="0" {% endif %}>
+            {% if (column["label"] is defined) %}
+                {% if (column['label'] == 'Изображение') %}
+                    <i class="fas fa-image"></i>
+                {% elseif (column["label"] == 'ID пользователя') %}
+                    <i class="fa fa-user"></i>
+                {% elseif (column["label"] == 'Внутренних показов') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Внутренних кликов') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Внутренний CTR') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Внутренний eCPM') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Кликов') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Кликов по тизерам') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Пробивы') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Конверсии') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Подтвержденные конверсии') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Аппрувы') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Вовлеченность') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Показы') %}
+                    <span>{{ column['label'] }}</span>
+                {% elseif (column["label"] == 'Клики') %}
+                    <span>{{ column['label'] }}</span>
+                {% else %}
+                    {{ column["label"] }}
+                {% endif %}
+            {% else %}
+                {{ column }}
+            {% endif %}
+        </th>
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,150 @@
+{% set current_route_name = app.request.get('_route') %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block common_css %}
+        <link rel="stylesheet" href="{{ asset('assets/dashboard/css/custom.css') }}?v={{ get_env('CSS_VERSION') }}">
+        <link rel="stylesheet" href="{{ asset('assets/node_modules/@fortawesome/fontawesome-free/css/all.min.css') }}?v={{ get_env('CSS_VERSION') }}">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css?v={{ get_env('CSS_VERSION') }}">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{ asset('assets/dashboard/css/adminlte.min.css') }}?v={{ get_env('CSS_VERSION') }}">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&v={{ get_env('CSS_VERSION') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('assets/node_modules/jquery-jcrop/css/jquery.Jcrop.css') }}?v={{ get_env('CSS_VERSION') }}">
+        <link rel="stylesheet" href="{{ asset('assets/node_modules/select2/dist/css/select2.css') }}?v={{ get_env('CSS_VERSION') }}">
+    {% endblock %}
+
+    {% block common_js %}
+        <!-- jQuery -->
+        <script src="{{ asset('assets/node_modules/jquery/dist/jquery.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="{{ asset('assets/node_modules/jquery-ui-dist/jquery-ui.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <script src="{{ asset('assets/node_modules/jquery-ui/ui/i18n/datepicker-ru.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- Select2 script-->
+        <script src="{{ asset('assets/node_modules/select2/dist/js/select2.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <!-- Cookies -->
+        <script src="{{ asset('assets/node_modules/jquery.cookie/jquery.cookie.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <!-- JCrop -->
+        <script src="{{ asset('assets/node_modules/jquery-jcrop/js/jquery.Jcrop.js') }}?v={{ get_env('JS_VERSION') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <!-- Bootstrap 4 -->
+        <script src="{{ asset('assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <!-- AdminLTE App -->
+        <script src="{{ asset('assets/dashboard/js/adminlte.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <!-- Sidebar state -->
+        <script src="{{ asset('assets/dashboard/js/common/save-sidebar-state.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        <!-- Custom validation -->
+        <script src="{{ asset('assets/dashboard/js/common/domain-parking-validation.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+         <!-- Moment.js script-->
+        <script src="{{ asset('assets/dashboard/js/common/moment.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+    {% endblock %}
+
+    {% block custom_css %}{% endblock %}
+</head>
+<body id="classes-for-sidebar-view" class="hold-transition sidebar-mini layout-fixed
+{% if app.request.cookies.has('sidebar') %}
+    {% if app.request.cookies.get('sidebar') == 'closed' %}
+        sidebar-collapse
+    {% endif %}
+{% endif %}
+{% block body_class %}{% endblock %}
+">
+
+{% block body %}
+    <div class="wrapper">
+        {% block wrapper %}
+
+            {% block navbar %}
+                {{ render_admin_nav_bar(current_route_name) | raw }}
+            {% endblock %}
+
+            <!-- Main Sidebar Container -->
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                {% block main_side_bar %}
+                    {{ render_side_bar(current_route_name) | raw }}
+                {% endblock %}
+            </aside>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                {% block content_header %}
+                    <!-- Content Header (Page header) -->
+                    <div class="content-header">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col-sm-6 header-text">
+                                    {% block h1_header_text %}
+                                        <div class="row align-items-center">
+                                            <h1 class="m-0 text-dark mr-3">{{ h1_header_text }}</h1>
+                                            {% if counter_needed_on_page is defined %}
+                                                {{ render_counter_labels() | raw }}
+                                            {% endif %}
+                                        </div>
+                                    {% endblock %}
+                                </div><!-- /.col -->
+                                <div class="col-sm-6">
+                                    {% block breadcrumbs %}{% endblock %}
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+                        </div><!-- /.container-fluid -->
+                    </div>
+                    <!-- /.content-header -->
+                {% endblock %}
+                <!-- Main content -->
+                <section class="content">
+                    <!-- Flash message alert block -->
+                    <div class="container-fluid">
+                        {% block alert_block %}
+                        <div class="row">
+                            <div class="col-12" id="flash-messages">
+                                {% for message in app.flashes('success') %}
+                                    {% include 'dashboard/partials/success_alert_message.html.twig' with {
+                                        'message': message
+                                    } %}
+                                {% endfor %}
+
+                                {% for message in app.flashes('error') %}
+                                    {% include 'dashboard/partials/warning_alert_message.html.twig' with {
+                                        'message': message
+                                    } %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        {% endblock %}
+                    </div>
+                    {% block main_content %}{% endblock %}
+                </section>
+                <!-- /.content -->
+
+            </div>
+            <!-- /.content-wrapper -->
+
+            {% block footer %}
+                {{ render_footer(current_route_name) | raw }}
+            {% endblock %}
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
+        {% endblock %}
+    </div>
+    <!-- ./wrapper -->
+    <!-- modals -->
+    {{ render_news_sources_list_modal() | raw }}
+{% endblock %}
+{% block custom_js %}{% endblock %}
+
+</body>
+</html>

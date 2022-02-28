@@ -1,0 +1,6 @@
+{% extends 'dashboard/templates/form.html.twig' %}
+{% block title %}Форма работы с новостью{% endblock %}
+{% block custom_script %}
+    <script src="{{ asset('assets/dashboard/js/common/wysiwyg-editor-fix.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/multiple-selector-select-all-button.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

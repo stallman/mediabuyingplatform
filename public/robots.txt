@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin
+Disallow: /journalist
+Disallow: /mediabuyer
+Disallow: /mediabuyer
+Disallow: /counting_news
+Disallow: /counting
+Disallow: /visit

@@ -1,0 +1,13 @@
+<nav class="menu">
+    <ul class="menu__list">
+        {% for category in categories %}
+            <li class="menu__item">
+                <a href="{{ path('front.show_by_category', {
+                    'slug': category.slug
+                }) }}" target="_blank" class="menu__link">
+                    {{ category.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

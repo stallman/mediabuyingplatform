@@ -1,0 +1,45 @@
+.icon{
+    display: none;
+    margin-left: auto;
+    margin-right: 20px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.header-my-links{
+    display: none;
+}
+
+@media (max-width: 1200px){
+    .some-header-nav{
+        display: none;
+    }
+    .icon{
+        display: block;
+        max-width: 22px;
+    }
+    .header-my-links{
+        margin-top: 20px;
+        width: 100%;
+        flex-direction: column;
+        margin-left: 20px;
+    }
+    .header-my-links a{
+        color: #999;
+        text-decoration: none;
+        width: 100%;
+        float: left;
+        text-align: left;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-top: 1px solid #eaeaea;
+        font-size: 14px;
+    }
+
+    .header-my-links a:last-child{
+        margin-bottom: 20px;
+    }
+    .some-links:hover {
+        color: #ba0505;
+    }
+}

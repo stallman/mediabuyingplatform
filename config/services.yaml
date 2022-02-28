@@ -1,0 +1,108 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+imports:
+  - { resource: basic-settings.yaml }
+
+parameters:
+    locale: ru
+    counters_config: '%kernel.project_dir%/config/counters.yaml'
+    basic_settings_config: '%kernel.project_dir%/config/basic-settings.yaml'
+    flash_messages: '%kernel.project_dir%/config/flash-messages.yaml'
+    theme_count: 5
+    dashboard_config: '%kernel.project_dir%/config/dashboards'
+    ip2location_api_key: 'demo'
+    ip2location_package: 'WS24'
+    ip2location_use_ssl: false
+    ip2location_lookup_method: 'database' #available values - database / webservice
+    ip2location_language: 'ru'
+    public_dir_path: '%kernel.project_dir%/public'
+    news_images_dir_asset_path: '/uploads/images/news'
+    news_images_dir_upload_path: '%kernel.project_dir%/public%news_images_dir_asset_path%'
+    teaser_images_dir_asset_path: '/uploads/images/teaser'
+    teaser_images_dir_upload_path: '%kernel.project_dir%/public%teaser_images_dir_asset_path%'
+    design_screen_path: '/designs'
+    ip2location_ip_db: '%kernel.project_dir%/bin/ip2location_db.BIN'
+    kernel.root_dir: '%kernel.project_dir%'
+    currency_api: '%env(resolve:CURRENCY_API)%'
+
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    bind:
+      $currencyApi: '%currency_api%'
+      $projectDir: '%kernel.project_dir%'
+
+
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  App\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+  Symfony\Component\Yaml\Yaml:
+    class: 'Symfony\Component\Yaml\Yaml'
+
+  Symfony\Component\DependencyInjection\Container:
+    class: 'Symfony\Component\DependencyInjection\Container'
+
+  # controllers are imported separately to make sure services can be injected
+  # as action arguments even if you don't extend any base controller class
+  App\Controller\:
+    resource: '../src/Controller'
+    tags: ['controller.service_arguments']
+
+  App\Service\Schedule\:
+    resource: '../src/Service/Schedule'
+    tags: ['schedule.builder']
+
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones
+  partner.listener:
+    class: App\EntityListeners\PartnerListener
+    tags:
+      - { name: doctrine.event_listener, event: postPersist, method: postPersist }
+      - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+  news.listener:
+    class: App\EntityListeners\NewsListener
+    tags:
+      - { name: doctrine.event_listener, event: postPersist, method: postPersist }
+      - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+  teasers.listener:
+    class: App\EntityListeners\TeasersListener
+    tags:
+      - { name: doctrine.event_listener, event: postPersist, method: postPersist }
+      - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+  mediabuyernews.listener:
+    class: App\EntityListeners\MediabuyerNewsListener
+    tags:
+      - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+  mediabuyernewsrotation.listener:
+    class: App\EntityListeners\MediabuyerNewsRotationListener
+    tags:
+      - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+      - { name: doctrine.event_listener, event: postPersist, method: postPersist }
+  image.listener:
+    class: App\EntityListeners\ImageListener
+    tags:
+      - { name: doctrine.event_listener, event: postPersist, method: postPersist }
+  teaserssubgroupsettings.listener:
+    class: App\EntityListeners\TeasersSubGroupSettingsListener
+    tags:
+      - { name: doctrine.event_listener, event: postPersist, method: postPersist }
+  user.listener:
+    class: App\EntityListeners\UserListener
+    tags:
+      - { name: doctrine.event_listener, event: postPersist, method: postPersist }
+  newscategory.listener:
+    class: App\EntityListeners\NewsCategoryListener
+    tags:
+      - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+  visits.listener:
+    class: App\EntityListeners\VisitsListener
+    tags:
+      - { name: doctrine.event_listener, event: postPersist, method: postPersist }

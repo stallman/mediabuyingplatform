@@ -1,0 +1,16 @@
+{%  if teaser %}
+    <div class="item -size-l -theme-white article-teaser custom-teaser-article">
+        <a href="{{ teasers_click_counter_link(teaser, article, {'pageType': 'short'})}}" style="text-decoration: none; color: black;" target="_blank">
+            <div class="item-container-large-version">
+                <div class="card-img-out custom-teaser-img-out" style="background: rgb(165, 153, 128);">
+                    <h5 class="card-title" style="color: #ffffff; z-index: 3; font-size: 1.2rem;">{{ get_city(teaser.text, city) | raw }}</h5>
+                    <div class="item__gradient" style="background: radial-gradient(100% 500% at 100% center, rgba(165, 153, 128, 0) 55%, rgb(165, 153, 128) 75%); z-index: 100;">
+                    </div>
+                </div>
+                <div class="card_col_1" style="z-index: 1; background: rgb(165, 153, 128);position: absolute;right: 0">
+                    <img class="card-img" src="{{ generate_preview_link(teaser.fileName, 'teaser',  width_teaser_block, height_teaser_block) }}">
+                </div>
+            </div>
+        </a>
+    </div>
+{% endif %}

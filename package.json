@@ -1,0 +1,42 @@
+{
+    "name": "assets",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.13.0",
+        "bootstrap": "^4.4.1",
+        "datatables": "^1.10.18",
+        "datatables.net-bs4": "^1.10.20",
+        "datatables.net-colreorder": "^1.5.3",
+        "datatables.net-fixedheader": "^3.1.7",
+        "jquery": "^3.5.0",
+        "jquery-jcrop": "^0.9.12",
+        "jquery-ui": "^1.12.1",
+        "jquery-ui-dist": "^1.12.1",
+        "jquery.cookie": "^1.4.1",
+        "popper": "^1.0.0",
+        "select2": "^4.0.13",
+        "sticky-sidebar": "^3.3.1",
+        "summernote": "^0.8.16"
+    },
+    "devDependencies": {
+        "@babel/preset-react": "^7.10.1",
+        "@symfony/webpack-encore": "^0.30.0",
+        "core-js": "^3.0.0",
+        "react": "^16.13.1",
+        "regenerator-runtime": "^0.13.2",
+        "vue": "^2.6.11",
+        "vue-loader": "^15.9.2",
+        "vue-template-compiler": "^2.6.11",
+        "webpack-notifier": "^1.6.0"
+    }
+}

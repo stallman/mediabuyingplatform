@@ -1,0 +1,27 @@
+<nav class="header__nav">
+    <ul class="menu">
+
+        {% for category in categories %}
+            <li class="menu__item">
+                <a href="{{ path('front.show_by_category', {
+                    'slug': category.slug
+                }) }}" target="_blank" class="menu__link">
+                    {{ category.title }}
+                </a>
+            </li>
+        {% endfor %}
+
+    </ul>
+</nav>
+
+<span class="icon" onclick="openMenu()">☰</span>
+
+<div class="header-my-links" id="header-my-links">
+    {% for category in categories %}
+        <a href="{{ path('front.show_by_category', {
+            'slug': category.slug
+        }) }}" target="_blank" class="some-links">
+            {{ category.title }}
+        </a>
+    {% endfor %}
+</div>

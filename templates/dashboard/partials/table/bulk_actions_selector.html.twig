@@ -1,0 +1,38 @@
+<div class="bulk-actions-block ml-auto">
+    <div class="input-group col-md-12 d-flex justify-content-end align-content-end">
+        <select class="custom-select col-md-2" id="bulk-actions-selector" style="min-width: 65%">
+            <option disabled selected>Массовые действия</option>
+            {% if (convert_path) is defined %}
+                <option value="convert" data-url="{{ convert_path }}">Конвертировать валюту в рубли
+                </option>
+            {% endif %}
+            {# todo test for all pages #}
+            {% if (delete_path) is defined %}
+                <option value="delete" data-url="{{ delete_path }}">Удаление записей
+                </option>
+            {% endif %}
+            {# todo test for all pages #}
+            {% if (set_active_path) is defined %}
+                <option value="set_active" data-url="{{ set_active_path }}">Смена статуса
+                    (Активная запись)
+                </option>
+            {% endif %}
+            {# todo test for all pages #}
+            {% if (set_disable_path) is defined %}
+                <option value="set_disable" data-url="{{ set_disable_path }}">Смена статуса
+                    (Неактивная запись)
+                </option>
+            {% endif %}
+            {# todo test for all pages #}
+            {% if (change_teaser_subgroup) is defined %}
+                <option value="change_teaser_subgroup" id="subgroup-option" data-url="{{ change_teaser_subgroup }}">Смена подгруппы тизеров
+                </option>
+            {% endif %}
+        </select>
+        <div class="col-md-6" id="teasers-group-select" style="display: none">
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" id="bulk-actions-submit" type="button">Сохранить</button>
+        </div>
+    </div>
+</div>

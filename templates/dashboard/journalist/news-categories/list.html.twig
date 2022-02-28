@@ -1,0 +1,14 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Категории{% endblock %}
+
+{% block table_body %}
+
+    {% for news_category in news_categories %}
+        <tr role="row" class="odd" {% if news_category['category'].isEnabled == false %}style="background-color: #a7a3a3;"{% endif %}>
+            <td>{{ news_category['category'].id }}</td>
+            <td>{{ news_category['category'].title }}</td>
+            <td>{{ news_category['category'].slug }}</td>
+            <td>{{ news_category['news_count'] }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

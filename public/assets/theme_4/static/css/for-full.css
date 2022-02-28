@@ -1,0 +1,26 @@
+@media (max-width: 991px) {
+    .teasers-third-col {
+        display: none;
+    }
+    .custom-essential-block {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .additional-second-col {
+        display: none;
+    }
+    .custom-essential-block {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .teasers-second-col {
+        display: none;
+    }
+    .custom-essential-block {
+        grid-template-columns: 1fr;
+    }
+}

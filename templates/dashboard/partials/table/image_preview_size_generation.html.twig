@@ -1,0 +1,5 @@
+{% if (item) %}
+    <img src="{{ generate_preview_link(item.fileName, class, width, height ) }}" alt="{{ item.id }}">
+{% else %}
+    <img src="/assets/dashboard/img/default-200x100.png" alt="#">
+{% endif %}

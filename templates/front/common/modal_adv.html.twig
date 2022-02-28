@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="{{ asset('assets/front/css/modal_adv.css') }}?v={{ get_env('CSS_VERSION') }}">
+<div class="exitblock">
+    <div class="fon"></div>
+    <div class="modaltext">
+        <p class="out-comebacker-content-mainp">Найактуальніші новини</p>
+        <div onclick='myFunction();' class="closeblock"></div>
+
+        <div class="out-comebacker-content-main">
+            <div class="out-comebacker-content-main-text">
+                {% set rows = get_modal_adv(6) %}
+                {% set top_rows = rows|slice(0,3) %}
+                {% set bot_rows = rows|slice(3,3) %}
+
+                <div style="height: 200px; margin-bottom: 23px;" class="currentModalTeaser">
+                    {% for row in top_rows %}
+                        <div class="exitblock-item teaser-item" data-index="{{ loop.index }}" id="t{{ loop.index }}">
+                            {% if row.type == 'news' %}
+                                {% set link = '/counting_news/' ~ row.id ~ '?pageType=top' %}
+                            {% else %}
+                                {% set link = '/counting/' ~ row.id ~ '?pageType=top' %}
+                            {% endif %}
+                            <a href="{{ link }}"
+                               onclick='myFunction();' target="_blank" class="mid-preview comeback-teaser"
+                               data-teaser-id="{{ row.id }}"
+                            >
+                                <div class="image">
+                                    <img src="{{ row.file_path ~ '/' ~ row.file_name }}" alt="" name="{{ row.id }}" style="height: 150px;">
+                                </div>
+                                <div class="title">{{ row.title }}</div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div style="height: 200px;" class="currentModalNews">
+                    {% for row in bot_rows %}
+                        <div class="exitblock-item" data-index="{{ loop.index }}" id="n{{ loop.index }}">
+                            {% if row.type == 'news' %}
+                                {% set link = '/counting_news/' ~ row.id ~ '?pageType=top' %}
+                            {% else %}
+                                {% set link = '/counting/' ~ row.id ~ '?pageType=top' %}
+                            {% endif %}
+                            <a href="{{ link }}"
+                               onclick='myFunction();' target="_blank" class="mid-preview comeback-teaser"
+                               data-teaser-id="{{ row.id }}"
+                            >
+                                <div class="image">
+                                    <img src="{{ row.file_path ~ '/' ~ row.file_name }}" alt="" name="{{ row.id }}" style="height: 150px;">
+                                </div>
+                                <div class="title">{{ row.title }}</div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+        <div class="back-to-home">
+            <a target="_blank" class="main-more-news"
+               href="/"
+               onclick="setTimeout(function(){$(window).unbind('beforeunload');window.location.reload();}, 100);myFunction();">Більше новин</a>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset('assets/front/js/common/modal_adv.js') }}?v={{ get_env('JS_VERSION') }}"></script>

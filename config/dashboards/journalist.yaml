@@ -1,0 +1,32 @@
+common:
+  sidebar_logo:
+    route: 'journalist_dashboard'
+    src: 'assets/dashboard/img/AdminLTELogo.png'
+    alt: 'AdminLTE Logo'
+    label: 'Панель управления'
+
+navbar:
+  logout:
+    label: 'Выход'
+    route: 'journalist_dashboard.logout'
+
+sidebar:
+  news:
+    label: 'Новости'
+    route: null
+    fa_icon: 'fas fa-newspaper'
+    tree_items:
+      news:
+        label: 'Новости'
+        route: 'journalist_dashboard.news_list'
+      news_categories:
+        label: 'Категории'
+        route: 'journalist_dashboard.news_categories_list'
+
+footer:
+  content: '<strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Version</b> 3.0.4
+                </div>
+                '

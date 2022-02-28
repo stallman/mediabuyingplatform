@@ -1,0 +1,51 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Финансы по новостям{% endblock %}
+
+{% block bulk_actions_checkobx %}{% endblock %}
+
+{% block table_body %}
+    <div class="bulk-actions-block" style="margin: 20px 0;">
+        <h1>Настройки отчета</h1>
+        <p>
+            С
+            <input class="form-control-custom" name="from" type="text" id="from" value="{{ "now"|date("d.m.Y") }}">
+            По
+            <input class="form-control-custom" name="to" type="text" id="to" value="{{ "now"|date("d.m.Y") }}">
+
+            <select class="custom-select" style="width: 300px; margin-bottom: 4px" id="news-finance-period">
+                <option value="" disabled selected>Быстрый выбор</option>
+                {% for v, name in periods %}
+                    <option data-period="{{ v }}" value={{ v }}>{{ name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+        {% set formHtml %}
+            {{ form_row(reportSettingForm.sources) }}
+            {{ form_row(reportSettingForm.news) }}
+            {{ form_row(reportSettingForm.save) }}
+        {% endset %}
+        {{ formHtml|replace({'[icon]': '<i class="fas fa-sync-alt"></i>'})|raw }}
+    </div>
+    <tr role="row" class="odd">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <script src="{{ asset('assets/dashboard/js/common/filter-news-finance.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/report-settings-form.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/datepicker-from-to.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/common/filter-by-date.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/theme_6/static/css/addition.css') }}?v={{ get_env('CSS_VERSION') }}">
+        <link rel="stylesheet" href="{{ asset('assets/theme_6/static/css/style.css') }}?v={{ get_env('CSS_VERSION') }}">
+        <link rel="stylesheet" href="{{ asset('assets/theme_6/static/css/burger_menu.css') }}?v={{ get_env('CSS_VERSION') }}">
+    {% endblock %}
+    {{ get_counters()['head'] | raw  }}
+    {{ render_send_pulse_script() | raw }}
+    <input id="page_number" type="hidden" value='{{ page_number ?? 1 }}'/>
+    <input id="is_ajax_load" type="hidden" value="{{ block_count }}"/>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="w1">
+        {% block header %}
+            <header class="header">
+                <div class="some-wrapper">
+                    {{ render_theme_6_nav_bar() | raw }}
+                </div>
+            </header>
+        {% endblock %}
+        {% block body %}{% endblock %}
+        
+        {% block javascripts %}
+            <!-- jQuery -->
+            <script src="{{ asset('assets/node_modules/jquery/dist/jquery.min.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+            <script src="{{ asset('assets/node_modules/jquery.cookie/jquery.cookie.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+            <script src="{{ asset('assets/front/js/common/backfix.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+            <script src="{{ asset('assets/front/js/common/click-under.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+            <script src="{{ asset('assets/front/js/common/visit-request.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+            <script src="{{ asset('assets/front/js/common/change_date.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+            <!-- Color to cards -->
+            <script src="{{ asset('assets/theme_6/static/js/colors-essential.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+            <script src="{{ asset('assets/theme_6/static/js/card-colors.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+
+            <!--burger-menu-->
+            <script src="{{ asset('assets/theme_6/static/js/burger-menu.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+            <script type="text/javascript" src="{{ asset('assets/node_modules/sticky-sidebar/dist/sticky-sidebar.js') }}?v={{ get_env('JS_VERSION') }}"></script>
+        {% endblock %}
+    </div>
+</div>
+
+{% if 'desktop' == get_device() %}
+    {% include 'front/common/modal_adv.html.twig' %}
+{% endif %}
+{{ get_counters()['body'] | raw  }}
+</body>
+</html>

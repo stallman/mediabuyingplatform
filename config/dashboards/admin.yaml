@@ -1,0 +1,70 @@
+common:
+  sidebar_logo:
+    route: 'admin_dashboard'
+    src: 'assets/dashboard/img/AdminLTELogo.png'
+    alt: 'AdminLTE Logo'
+    label: 'Панель управления'
+
+navbar:
+  logout:
+    label: 'Выход'
+    route: 'admin_dashboard.logout'
+
+sidebar:
+  news:
+    label: 'Новости'
+    route: null
+    fa_icon: 'fas fa-newspaper'
+    tree_items:
+      news:
+        label: 'Новости'
+        route: 'admin_dashboard.news_list'
+      news_categories:
+        label: 'Категории'
+        route: 'admin_dashboard.news_categories_list'
+        fa_icon: 'fas fa-newspaper'
+
+  users:
+    label: 'Пользователи'
+    route: 'admin_dashboard.user_list'
+    fa_icon: 'fas fa-users'
+  settings:
+    label: 'Настройки'
+    route: null
+    fa_icon: 'fas fa-cog'
+    tree_items:
+      system_settings:
+        label: 'Основные настройки'
+        route: 'admin_dashboard.settings.basic_settings_list'
+      counters:
+        label: 'Счетчики'
+        route: 'admin_dashboard.settings.counters_list'
+      crop_variant:
+        label: 'Варианты кропа'
+        route: 'admin_dashboard.settings.crop_variant_list'
+      countries:
+        label: 'Страны'
+        route: 'admin_dashboard.settings.country_list'
+  conversion:
+    label: 'Лиды'
+    route: 'admin_dashboard.conversion_list'
+    fa_icon: 'fa fa-chart-pie'
+
+list:
+  news:
+    bulk_action_checkbox: true
+    add_button:
+      label: 'Добавить новость'
+      route: 'admin_dashboard.news_add'
+  conversion:
+    bulk_action_checkbox: true
+
+footer:
+  content: '<strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Version</b> 3.0.4
+                </div>
+                '
+save_button:
+  label: 'Сохранить'

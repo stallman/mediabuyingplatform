@@ -1,0 +1,34 @@
+{% extends 'dashboard/templates/list.html.twig' %}
+{% block title %}Новости{% endblock %}
+
+{% block bulk_actions_checkobx %}{% endblock %}
+
+{% set counter_needed_on_page = 1 %}
+
+{% block table_body %}
+
+    <div class="bulk-actions-block" style="margin: 20px 0;">
+        <div class="input-group col-md-3">
+            <select multiple class="custom-select" id="filter-news">
+                {% for category in categories %}
+                    <option value={{ category.id }}>{{ category.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-group col-md-3">
+            <button class="btn btn-info" id="clear-filter-news" style="margin-top: .75rem;">Сбросить</button>
+        </div>
+    </div>
+    <tr role="row" class="odd">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td style="width: 20%; text-align: center">
+        </td>
+    </tr>
+{% endblock %}
